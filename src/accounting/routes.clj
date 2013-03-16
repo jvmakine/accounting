@@ -8,6 +8,6 @@
   (route/resources "/")
   (GET "/" [] (views/main))
   (GET "/logout" [] (views/logout))
-  (GET "/login" [] (views/logout))
+  (GET "/login" [] (views/login))
   (GET "/signup" [] (views/signup))
   (route/not-found (views/page-not-found)))

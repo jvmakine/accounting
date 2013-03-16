@@ -37,7 +37,20 @@
                             [:td ""]]]
                           )))
 
-(defn login [] (page-template "Login" [:span ""]))
+(defn login [] 
+  (page-template "Login" 
+                 (form-to [:put "/login/post"]
+                          [:table
+                           [:tr
+                            [:td (label "username" "Username")]
+                            [:td (text-field "username")]]
+                           [:tr
+                            [:td (label "password" "Password")]
+                            [:td (password-field "password")]]
+                           [:tr
+                            [:td (submit-button "Login")]
+                            [:td ""]]
+                           ])))
 
 (defn main []
   (page-template "Accounting" 
