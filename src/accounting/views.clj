@@ -17,11 +17,20 @@
 
 (defn signup [] 
   (page-template "Sign up" 
-                 (form-to [:put "/signup/post"] 
-                          (label "username" "Username")
-                          (text-field "username")
-                          (label "password" "Password")
-                          (text-field "password")
+                 (form-to [:put "/signup/post"]
+                          [:table 
+                           [:tr
+                            [:td (label "username" "Username")]
+                            [:td (text-field "username")]]
+                           [:tr
+                            [:td (label "password" "Password")]
+                            [:td (password-field "password")]]
+                           [:tr
+                            [:td (label "password-again" "Retype password")]
+                            [:td (password-field "password-again")]]
+                           [:tr
+                            [:td (submit-button "Register")]
+                            [:td ""]]]
                           )))
 
 (defn login [] (page-template "Login" [:span ""]))
