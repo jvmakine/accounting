@@ -2,18 +2,22 @@
   (:use [hiccup core page form]))
 
 (defn page-template [title contents]
-  (html5
-    [:head [:title title]
-     (include-css "/css/accounting.css")
-     (include-css "/css/cupertino/jquery-ui-1.10.2.custom.min.css")
-     (include-js "/js/jquery-1.9.1.js")
-     (include-js "/js/jquery-ui-1.10.2.custom.min.js")
-     (include-js "/js/decorator.js")]
-    [:body
-     [:div {:id "main-area"}
-      [:h1 {:id "page-title"} title]
-      [:div {:id "content-area"} contents]
-     ]]))
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :session {}
+   :body
+   (html5
+     [:head [:title title]
+      (include-css "/css/accounting.css")
+      (include-css "/css/cupertino/jquery-ui-1.10.2.custom.min.css")
+      (include-js "/js/jquery-1.9.1.js")
+      (include-js "/js/jquery-ui-1.10.2.custom.min.js")
+      (include-js "/js/decorator.js")]
+     [:body
+      [:div {:id "main-area"}
+       [:h1 {:id "page-title"} title]
+       [:div {:id "content-area"} contents]
+       ]])})
 
 (defn page-not-found [] (page-template "Page Not Found!" [:span ""]))
 

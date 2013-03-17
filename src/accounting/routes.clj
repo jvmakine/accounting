@@ -4,10 +4,14 @@
   (:require [compojure.route :as route])
   (:require [accounting.views :as views]))
 
-(defroutes accounting
+(defroutes accounting-routes
   (route/resources "/")
-  (GET "/" [] (views/main))
+  (GET "/" [request] (views/main))
   (GET "/logout" [] (views/logout))
-  (GET "/login" [] (views/login))
-  (GET "/signup" [] (views/signup))
+  (GET "/login" [request] (views/login))
+  (GET "/signup" [request] (views/signup))
   (route/not-found (views/page-not-found)))
+
+(def accounting (-> 
+                  accounting-routes
+                  wrap-session))
