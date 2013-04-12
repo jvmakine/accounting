@@ -5,10 +5,13 @@
         (compojure core)
         (sandbar core auth stateful-session))
   (:require [compojure.route :as route])
-  (:require [accounting.views :as views]))
+  (:require [accounting.views :as views])
+  (:require [accounting.operations :as operations]))
 
 (defn authenticator [request]
-  (redirect "/login"))
+  (if (nil? (session-get "username")) 
+    (redirect "/login")
+    {:name (session-get "username") :roles (session-get "roles")}))
 
 (def security-policy
      [#"/"                   [:user :ssl]
@@ -23,8 +26,9 @@
 (defroutes accounting-routes
   (route/resources "/")
   (GET "/" [request] (views/main))
-  (GET "/logout" [] (views/logout))
+  (GET "/logout" [request] (operations/login request))
   (GET "/login" [request] (views/login))
+  (POST "/login" [request] (operations/login request))
   (GET "/signup" [request] (views/signup))
   (route/not-found (views/page-not-found)))
 

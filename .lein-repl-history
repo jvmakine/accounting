@@ -1,0 +1,10 @@
+(authenticator 2)
+(accounting.routes/authenticator 2)
+(:require [accounting.operations :as operations])
+ecit
+(doc nil?)
+(if (nil? nil) 1 2)
+(if (nil? 1 1 2)
+(if (nil?) 1 1 2)
+(if (nil? 1) 1 2)
+exiy

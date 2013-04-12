@@ -21,11 +21,9 @@
 
 (defn page-not-found [] (page-template "Page Not Found!" [:span ""]))
 
-(defn logout [] (page-template "Logged out!" [:span ""]))
-
 (defn signup [] 
   (page-template "Sign up" 
-                 (form-to [:put "/signup/post"]
+                 (form-to [:put "/signup"]
                           [:table 
                            [:tr
                             [:td (label "username" "Username")]
@@ -43,7 +41,7 @@
 
 (defn login [] 
   (page-template "Login" 
-                 (form-to [:put "/login/post"]
+                 (form-to [:put "/login"]
                           [:table
                            [:tr
                             [:td (label "username" "Username")]
