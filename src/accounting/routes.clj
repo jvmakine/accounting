@@ -6,14 +6,15 @@
   (:require [compojure.route :as route])
   (:require [accounting.views :as views]))
 
-(def my-authenticator 
-  {:name "testi" :roles #{}})
+(defn authenticator [request]
+  {:name "testi" :roles #{:test}})
 
 (def security-policy
      [#"/"                   [:any :ssl]
-      #"/css/.*"              [:any :ssl]
-      #"/js/.*"               [:any :ssl]
+      #"/css/.*"             [:any :ssl]
+      #"/js/.*"              [:any :ssl]
       #"/login"              [:any :ssl] 
+      #"/signup"             [:any :ssl]
       #"/logout"             [:any :ssl]])	
 
 (defroutes accounting-routes
@@ -26,6 +27,5 @@
 
 (def accounting 
   (-> accounting-routes
-    (with-security security-policy my-authenticator)
-    wrap-stateful-session
-    ))
+    (with-security security-policy authenticator)
+    wrap-stateful-session))
