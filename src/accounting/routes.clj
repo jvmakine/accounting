@@ -1,16 +1,17 @@
 (ns accounting.routes
   (:use (ring.adapter jetty)
         (ring.middleware file)
+        (ring.util response)
         (compojure core)
         (sandbar core auth stateful-session))
   (:require [compojure.route :as route])
   (:require [accounting.views :as views]))
 
 (defn authenticator [request]
-  {:name "testi" :roles #{:test}})
+  (redirect "/login"))
 
 (def security-policy
-     [#"/"                   [:any :ssl]
+     [#"/"                   [:user :ssl]
       #"/css/.*"             [:any :ssl]
       #"/js/.*"              [:any :ssl]
       #"/login"              [:any :ssl] 
