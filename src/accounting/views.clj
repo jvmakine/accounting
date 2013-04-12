@@ -1,5 +1,6 @@
 (ns accounting.views
-  (:use [hiccup core page form]))
+  (:use [hiccup core page form])
+  (:require [accounting.urls :as urls]))
 
 (defn page-template [title contents]
   {:status 200
@@ -23,7 +24,7 @@
 
 (defn signup [] 
   (page-template "Sign up" 
-                 (form-to [:put "/signup"]
+                 (form-to [:post urls/signup]
                           [:table 
                            [:tr
                             [:td (label "username" "Username")]
@@ -41,7 +42,7 @@
 
 (defn login [] 
   (page-template "Login" 
-                 (form-to [:post "/login/post"]
+                 (form-to [:post urls/login]
                           [:table
                            [:tr
                             [:td (label "username" "Username")]
@@ -54,8 +55,8 @@
                             [:td ""]]
                            ]
                           [:div {:class "footer"}
-                           [:a {:href "/signup"} "Sign up"]])))
+                           [:a {:href urls/signup} "Sign up"]])))
 
 (defn main []
   (page-template "Accounting" 
-                 [:p "Testing"]))
+                 [:div [:a {:href urls/logout} "Logout"]]))
