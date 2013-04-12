@@ -15,7 +15,9 @@
       #"/css/.*"             [:any :ssl]
       #"/js/.*"              [:any :ssl]
       #"/login"              [:any :ssl] 
+      #"/login/post"         [:any :ssl]
       #"/signup"             [:any :ssl]
+      #"/signup/post"        [:any :ssl]
       #"/logout"             [:any :ssl]])	
 
 (defroutes accounting-routes

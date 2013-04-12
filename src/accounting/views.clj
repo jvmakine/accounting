@@ -54,7 +54,9 @@
                            [:tr
                             [:td (submit-button "Login")]
                             [:td ""]]
-                           ])))
+                           ]
+                          [:div {:class "footer"}
+                           [:a {:href "/signup"} "Sign up"]])))
 
 (defn main []
   (page-template "Accounting" 
