@@ -1,6 +1,6 @@
 (ns accounting.routes
   (:use (ring.adapter jetty)
-        (ring.middleware file)
+        (ring.middleware file params)
         (ring.util response)
         (compojure core)
         (sandbar core auth stateful-session))
@@ -26,13 +26,15 @@
 (defroutes accounting-routes
   (route/resources "/")
   (GET "/" [request] (views/main))
-  (GET "/logout" [request] (operations/login request))
+  (GET "/logout" [] (operations/logout))
   (GET "/login" [request] (views/login))
-  (POST "/login" [request] (operations/login request))
+  (POST "/login/post" [username password] (operations/login username password))
   (GET "/signup" [request] (views/signup))
   (route/not-found (views/page-not-found)))
 
 (def accounting 
   (-> accounting-routes
     (with-security security-policy authenticator)
-    wrap-stateful-session))
+    wrap-stateful-session
+    wrap-params
+    ))

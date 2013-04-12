@@ -4,13 +4,13 @@
     (ring.util response)
     (sandbar core stateful-session)))
 
-(defn login [request]
+(defn login [username password]
   (do
-    (session-put! "username" "test-user")
+    (session-put! "username" username)
     (session-put! "roles" #{:user})
     (redirect "/")))
 
-(defn logout [request]
+(defn logout []
   (do
     (session-delete-key! "username")
     (session-delete-key!  "roles")

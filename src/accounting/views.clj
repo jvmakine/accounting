@@ -41,7 +41,7 @@
 
 (defn login [] 
   (page-template "Login" 
-                 (form-to [:put "/login"]
+                 (form-to [:post "/login/post"]
                           [:table
                            [:tr
                             [:td (label "username" "Username")]
