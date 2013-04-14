@@ -8,5 +8,8 @@
   (pk :id)
   (entity-fields :username :password :id :registration_time))
 
-(defn new-user [username password]
-  (insert users (values {:username username :password password})))
+(defn new [username password_hash]
+  (insert users (values {:username username :password password_hash})))
+
+(defn get-by-username [username]
+  (first (select users (where (= :username username)))))

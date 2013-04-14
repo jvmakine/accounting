@@ -8,3 +8,12 @@ ecit
 (if (nil?) 1 1 2)
 (if (nil? 1) 1 2)
 exiy
+(= 1 2)
+(= 1 1)
+(let [a {:a 1 :b 2}] a)
+(let [a {:a 1 :b 2}] (:a a))
+(let [a {:a 1 :b 2}] (:b a))
+([5 6 7] 1)
+([5 6 7] 0)
+(first [1 2 3])
+(first [])
