@@ -22,7 +22,9 @@
     (session-delete-key!  "roles")
     (redirect urls/login)))
 
-(defn signup [username password]
-  (do
-    (user/new username (utils/md5 password))
-    (redirect urls/root)))
+(defn signup [username password password-again]
+  (if (= password password-again)
+    (do
+      (user/new username (utils/md5 password))
+      (redirect urls/root))
+    (redirect urls/signup)))

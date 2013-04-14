@@ -31,7 +31,7 @@
   (GET urls/login [request] (views/login))
   (POST urls/login [username password] (operations/login username password))
   (GET urls/signup [] (views/signup))
-  (POST urls/signup [username password] (operations/signup username password))
+  (POST urls/signup [username password password-again] (operations/signup username password password-again))
   (route/not-found (views/page-not-found)))
 
 (def accounting 
