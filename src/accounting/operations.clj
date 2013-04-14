@@ -11,6 +11,7 @@
     (do
       (session-put! "username" username)
       (session-put! "roles" #{:user})
+      (user/update-login-time username)
       (redirect urls/root))
     (redirect urls/login)))
 
