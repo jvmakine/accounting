@@ -9,12 +9,17 @@
   (pk :id)
   (entity-fields :username :password :id :registration_time :last_login_time))
 
+(def salt "34p5uedfklsh403")
+
+(defn transform-password [password]
+  (utils/md5 (str password salt)))
+
 (defn new [username password]
-  (insert users (values {:username username :password (utils/md5 password)})))
+  (insert users (values {:username username :password (transform-password password)})))
 
 (defn valid-login? [username password]
   (let [user (first (select users (where (= :username username))))]
-    (= (utils/md5 password) (:password user))))
+    (= (transform-password password) (:password user))))
 
 (defn update-login-time [username]
   (update users 
