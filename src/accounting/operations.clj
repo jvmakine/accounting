@@ -4,17 +4,15 @@
     (ring.util response)
     (sandbar core stateful-session))
   (:require [accounting.urls :as urls])
-  (:require [accounting.dao.user :as user])
-  (:require [accounting.utils :as utils]))
+  (:require [accounting.dao.user :as user]))
 
 (defn login [username password]
-  (let [user (user/get-by-username username)]
-    (if (= (utils/md5 password) (:password user))
-      (do
-        (session-put! "username" username)
-        (session-put! "roles" #{:user})
-        (redirect urls/root))
-      (redirect urls/login))))
+  (if (user/valid-login? username password)
+    (do
+      (session-put! "username" username)
+      (session-put! "roles" #{:user})
+      (redirect urls/root))
+    (redirect urls/login)))
 
 (defn logout []
   (do
@@ -25,6 +23,6 @@
 (defn signup [username password password-again]
   (if (= password password-again)
     (do
-      (user/new username (utils/md5 password))
+      (user/new username password)
       (redirect urls/root))
     (redirect urls/signup)))

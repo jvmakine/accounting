@@ -1,6 +1,7 @@
 (ns accounting.dao.user
   (:use [korma db core])
-  (:require [accounting.dao.db :as db]))
+  (:require [accounting.dao.db :as db])
+  (:require [accounting.utils :as utils]))
 
 (defentity users
   (table :users)
@@ -8,8 +9,9 @@
   (pk :id)
   (entity-fields :username :password :id :registration_time))
 
-(defn new [username password_hash]
-  (insert users (values {:username username :password password_hash})))
+(defn new [username password]
+  (insert users (values {:username username :password (utils/md5 password)})))
 
-(defn get-by-username [username]
-  (first (select users (where (= :username username)))))
+(defn valid-login? [username password]
+  (let [user (first (select users (where (= :username username))))]
+    (= (utils/md5 password) (:password user))))
