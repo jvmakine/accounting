@@ -4,7 +4,7 @@
     (ring.util response)
     (sandbar core stateful-session))
   (:require [accounting.urls :as urls])
-  (:require [accounting.dao.user :as user])
+  (:require [accounting.service.user :as user])
   (:require [accounting.views :as views]))
 
 (defn login [username password]
