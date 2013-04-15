@@ -15,7 +15,8 @@
     {:name (session-get "username") :roles (session-get "roles")}))
 
 (def security-policy
-     [#"/"                   [:user :ssl]
+     [#"/index.html"          [:user :ssl]
+      #"/"                   [:user :ssl]
       #"/css/.*"             [:any :ssl]
       #"/js/.*"              [:any :ssl]
       #"/login"              [:any :ssl] 
@@ -24,14 +25,18 @@
       #"/signup/post"        [:any :ssl]
       #"/logout"             [:any :ssl]])	
 
+(defn wrap-dir-index [handler]
+  (fn [req] 
+    (handler (update-in req [:uri]
+                        #(if (= "/" %) "/index.html" %)))))
+
 (defroutes accounting-routes
-  (route/resources "/")
-  (GET urls/root [request] (views/main))
   (GET urls/logout [] (operations/logout))
   (GET urls/login [request] (views/login #{}))
   (POST urls/login [username password] (operations/login username password))
   (GET urls/signup [] (views/signup #{}))
   (POST urls/signup [username password password-again] (operations/signup username password password-again))
+  (route/resources "/")
   (route/not-found (views/page-not-found)))
 
 (def accounting 
@@ -39,4 +44,5 @@
     (with-security security-policy authenticator)
     wrap-stateful-session
     wrap-params
+    wrap-dir-index
     ))

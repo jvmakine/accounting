@@ -1,6 +1,7 @@
 (ns accounting.views
   (:use [hiccup core page form])
-  (:use (sandbar core stateful-session))
+  (:use (sandbar core stateful-session)
+        (ring.util response))
   (:require [accounting.urls :as urls]))
 
 (defn page-template [title contents]
@@ -68,9 +69,3 @@
                            ]
                           [:div {:class "footer"}
                            [:a {:href urls/signup} "Sign up"]])))
-
-(defn main []
-  (page-template "Accounting"
-                 [:div 
-                  [:p (str "Hello " (session-get "username"))]
-                  [:div [:a {:href urls/logout} "Logout"]]]))
