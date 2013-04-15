@@ -28,9 +28,9 @@
   (route/resources "/")
   (GET urls/root [request] (views/main))
   (GET urls/logout [] (operations/logout))
-  (GET urls/login [request] (views/login))
+  (GET urls/login [request] (views/login #{}))
   (POST urls/login [username password] (operations/login username password))
-  (GET urls/signup [] (views/signup))
+  (GET urls/signup [] (views/signup #{}))
   (POST urls/signup [username password password-again] (operations/signup username password password-again))
   (route/not-found (views/page-not-found)))
 

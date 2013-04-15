@@ -4,7 +4,8 @@
     (ring.util response)
     (sandbar core stateful-session))
   (:require [accounting.urls :as urls])
-  (:require [accounting.dao.user :as user]))
+  (:require [accounting.dao.user :as user])
+  (:require [accounting.views :as views]))
 
 (defn login [username password]
   (if (user/valid-login? username password)
@@ -13,7 +14,7 @@
       (session-put! "roles" #{:user})
       (user/update-login-time username)
       (redirect urls/root))
-    (redirect urls/login)))
+    (views/login {:login "Invalid username or password"})))
 
 (defn logout []
   (do
@@ -23,7 +24,9 @@
 
 (defn signup [username password password-again]
   (if (= password password-again)
-    (do
-      (user/new username password)
-      (redirect urls/root))
-    (redirect urls/signup)))
+    (if (user/exists? username)
+      (views/signup {:username "User already exists"})
+      (do
+        (user/new username password)
+        (redirect urls/root)))
+      (views/signup {:password "Passwords do not match"})))

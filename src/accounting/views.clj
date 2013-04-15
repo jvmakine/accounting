@@ -22,36 +22,47 @@
 
 (defn page-not-found [] (page-template "Page Not Found!" [:span ""]))
 
-(defn signup [] 
+(defn print-error [key errors]
+  (let [msg (key errors)]
+    (if (nil? msg) "" [:div {:class "error"} msg])))
+
+(defn signup [errors] 
   (page-template "Sign up" 
                  (form-to [:post urls/signup]
                           [:table 
                            [:tr
                             [:td (label "username" "Username")]
-                            [:td (text-field "username")]]
+                            [:td (text-field "username")]
+                            [:td (print-error :username errors)]]
                            [:tr
                             [:td (label "password" "Password")]
-                            [:td (password-field "password")]]
+                            [:td (password-field "password")]
+                            [:td (print-error :password errors)]]
                            [:tr
                             [:td (label "password-again" "Retype password")]
-                            [:td (password-field "password-again")]]
+                            [:td (password-field "password-again")]
+                            [:td (print-error :password errors)]]
                            [:tr
                             [:td (submit-button "Register")]
+                            [:td ""]
                             [:td ""]]]
                           )))
 
-(defn login [] 
+(defn login [errors] 
   (page-template "Login" 
                  (form-to [:post urls/login]
                           [:table
                            [:tr
                             [:td (label "username" "Username")]
-                            [:td (text-field "username")]]
+                            [:td (text-field "username")]
+                            [:td (print-error :login errors)]]
                            [:tr
                             [:td (label "password" "Password")]
-                            [:td (password-field "password")]]
+                            [:td (password-field "password")]
+                            [:td (print-error :login errors)]]
                            [:tr
                             [:td (submit-button "Login")]
+                            [:td ""]
                             [:td ""]]
                            ]
                           [:div {:class "footer"}

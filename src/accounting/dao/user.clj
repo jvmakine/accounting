@@ -25,3 +25,7 @@
   (update users 
           (set-fields {:last_login_time (sqlfn now)})
           (where (= :username username))))
+
+(defn exists? [username]
+  (let [user (first (select users (where (= :username username))))]
+    (not (nil? user))))
