@@ -15,8 +15,9 @@
     {:name (session-get "username") :roles (session-get "roles")}))
 
 (def security-policy
-     [#"/index.html"          [:user :ssl]
+     [#"/index.html"         [:user :ssl]
       #"/"                   [:user :ssl]
+      #"/api/*"              [:user :ssl]
       #"/css/.*"             [:any :ssl]
       #"/js/.*"              [:any :ssl]
       #"/login"              [:any :ssl] 
@@ -36,6 +37,7 @@
   (POST urls/login [username password] (operations/login username password))
   (GET urls/signup [] (views/signup #{}))
   (POST urls/signup [username password password-again] (operations/signup username password password-again))
+  (POST urls/new-account [name description] (operations/new-account name description))
   (route/resources "/")
   (route/not-found (views/page-not-found)))
 

@@ -5,7 +5,9 @@
     (sandbar core stateful-session))
   (:require [accounting.urls :as urls])
   (:require [accounting.service.user :as user])
-  (:require [accounting.views :as views]))
+  (:require [accounting.service.account :as account])
+  (:require [accounting.views :as views])
+  (:require [clj-json.core :as json]))
 
 (defn login [username password]
   (if (user/valid-login? username password)
@@ -30,3 +32,8 @@
         (user/new username password)
         (redirect urls/root)))
       (views/signup {:password "Passwords do not match"})))
+
+(defn current-user [] (session-get "username"))
+
+(defn new-account [name description]
+  (account/new name description (current-user)))

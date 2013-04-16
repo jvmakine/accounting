@@ -4,3 +4,5 @@
 (def login "/login")
 (def logout "/logout")
 (def signup "/signup")
+
+(def new-account "/api/new-account")

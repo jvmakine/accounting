@@ -15,3 +15,10 @@
   (database accounting-db)
   (pk :id)
   (entity-fields :username :password :id :registration_time :last_login_time))
+
+(defentity account
+  (table :account)
+  (database accounting-db)
+  (pk :id)
+  (entity-fields :name :description :id :creation_time)
+  (has-one users))
