@@ -7,7 +7,8 @@
   (:require [compojure.route :as route])
   (:require [accounting.views :as views])
   (:require [accounting.operations :as operations])
-  (:require [accounting.urls :as urls]))
+  (:require [accounting.urls :as urls])
+  (:require [clj-json.core :as json]))
 
 (defn authenticator [request]
   (if (nil? (session-get "username")) 
@@ -17,19 +18,25 @@
 (def security-policy
      [#"/index.html"         [:user :ssl]
       #"/"                   [:user :ssl]
-      #"/api/*"              [:user :ssl]
+      #"/api/.*"              [:user :ssl]
       #"/css/.*"             [:any :ssl]
       #"/js/.*"              [:any :ssl]
       #"/login"              [:any :ssl] 
       #"/login/post"         [:any :ssl]
       #"/signup"             [:any :ssl]
       #"/signup/post"        [:any :ssl]
+      #"/permission-denied" [:any :ssl]
       #"/logout"             [:any :ssl]])	
 
 (defn wrap-dir-index [handler]
   (fn [req] 
     (handler (update-in req [:uri]
                         #(if (= "/" %) "/index.html" %)))))
+
+(defn json-response [data & [status]]
+  {:status (or status 200)
+   :headers {"Content-Type" "application/json"}
+   :body (json/generate-string data)})
 
 (defroutes accounting-routes
   (GET urls/logout [] (operations/logout))
@@ -38,6 +45,7 @@
   (GET urls/signup [] (views/signup #{}))
   (POST urls/signup [username password password-again] (operations/signup username password password-again))
   (POST urls/new-account [name description] (operations/new-account name description))
+  (GET urls/get-accounts [] (json-response (operations/get-accounts)))
   (route/resources "/")
   (route/not-found (views/page-not-found)))
 

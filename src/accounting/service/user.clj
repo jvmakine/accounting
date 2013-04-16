@@ -23,3 +23,6 @@
 (defn exists? [username]
   (let [user (first (select db/users (where (= :username username))))]
     (not (nil? user))))
+
+(defn get-user-id [username]
+  (:id (first (select db/users (fields :id) (where (= :username username))))))

@@ -6,14 +6,14 @@
   (:require [accounting.urls :as urls])
   (:require [accounting.service.user :as user])
   (:require [accounting.service.account :as account])
-  (:require [accounting.views :as views])
-  (:require [clj-json.core :as json]))
+  (:require [accounting.views :as views]))
 
 (defn login [username password]
   (if (user/valid-login? username password)
     (do
       (session-put! "username" username)
       (session-put! "roles" #{:user})
+      (session-put! "user-id" (user/get-user-id username))
       (user/update-login-time username)
       (redirect urls/root))
     (views/login {:login "Invalid username or password"})))
@@ -35,5 +35,10 @@
 
 (defn current-user [] (session-get "username"))
 
+(defn current-user-id [] (session-get "user-id"))
+
 (defn new-account [name description]
-  (account/new name description (current-user)))
+  (account/new name description (current-user-id)))
+
+(defn get-accounts []
+  (account/list (current-user-id)))

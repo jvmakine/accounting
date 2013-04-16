@@ -6,3 +6,4 @@
 (def signup "/signup")
 
 (def new-account "/api/new-account")
+(def get-accounts "/api/get-accounts")
