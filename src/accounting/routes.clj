@@ -18,14 +18,14 @@
 (def security-policy
      [#"/index.html"         [:user :ssl]
       #"/"                   [:user :ssl]
-      #"/api/.*"              [:user :ssl]
+      #"/rest/.*"            [:user :ssl]
       #"/css/.*"             [:any :ssl]
       #"/js/.*"              [:any :ssl]
       #"/login"              [:any :ssl] 
       #"/login/post"         [:any :ssl]
       #"/signup"             [:any :ssl]
       #"/signup/post"        [:any :ssl]
-      #"/permission-denied" [:any :ssl]
+      #"/permission-denied"  [:any :ssl]
       #"/logout"             [:any :ssl]])	
 
 (defn wrap-dir-index [handler]
@@ -39,13 +39,16 @@
    :body (json/generate-string data)})
 
 (defroutes accounting-routes
+  ; Account management
   (GET urls/logout [] (operations/logout))
   (GET urls/login [request] (views/login #{}))
   (POST urls/login [username password] (operations/login username password))
   (GET urls/signup [] (views/signup #{}))
   (POST urls/signup [username password password-again] (operations/signup username password password-again))
-  (POST urls/new-account [name description] (operations/new-account name description))
-  (GET urls/get-accounts [] (json-response (operations/get-accounts)))
+  ; RESTful urls for accounts
+  (GET urls/account [] (json-response (operations/get-accounts)))
+  (POST urls/account [name description] (operations/new-account name description))
+  ; Other utils
   (route/resources "/")
   (route/not-found (views/page-not-found)))
 
