@@ -8,14 +8,24 @@
 		<script type="text/javascript" src="/js/jquery-1.9.1.js"></script>
 		<script type="text/javascript" src="/js/jquery-ui-1.10.2.custom.min.js"></script>
 		<script type="text/javascript" src="/js/decorator.js"></script>
-		<script type="text/javascript" src="/js/backbone-min.js"></script>
 		<script type="text/javascript" src="/js/underscore-min.js"></script>
+		<script type="text/javascript" src="/js/backbone-min.js"></script>
 		<script type="text/javascript" src="/js/accounting.js"></script>
+		<script type="text/javascript">
+			$(function() {
+			  accounting.init();
+			  $("#alertAccounts").click(function(e) {
+			    _.each(accounting.listAccounts(), function(account) {
+				  alert(account.name);
+				});
+			  });
+			});
+		</script>
 	</head>
 	<body>
 		<div>
-			Hello 2!
-		</div>	
+			<a id="alertAccounts">Accounts</a>
+		</div>
 		<div>
 			<a href="/logout">Logout</a>
 		</div>
