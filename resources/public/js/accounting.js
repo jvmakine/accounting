@@ -1,4 +1,5 @@
 "use strict";
+
 var accounting = (function() {
   
   var publicInterface = {};
@@ -8,6 +9,17 @@ var accounting = (function() {
   var AccountModel = Backbone.Model.extend({
     urlRoot: '/rest/account',
     defaults: {}
+  });
+  
+  var AccountView = Backbone.View.extend({
+    render: function() {
+      var template = _.template( $("#account_template").html(), {} );
+      this.$el.html(template);
+      return this;
+    },
+    initialize: function() {
+      this.render();
+    }
   });
   
   function newCollection(url) {
@@ -26,6 +38,7 @@ var accounting = (function() {
   
   publicInterface.init = function() {
     Accounts.fetch();
+    var account_view = new AccountView({ el: $('#account_container') });
   }
   
   return publicInterface;
