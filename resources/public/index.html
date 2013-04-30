@@ -13,11 +13,12 @@
 		<script type="text/javascript" src="/js/accounting.js"></script>
 		<script type="text/javascript">
 			$(function() {
-			  accounting.init();
-			  $("#alertAccounts").click(function(e) {
-			    _.each(accounting.listAccounts(), function(account) {
-				  alert(account.name);
-				});
+			  $(".accordion").accordion();
+			  accounting.init({
+			    onAccountRefresh: function() {
+					$("#account_container").accordion('destroy');
+		        	$("#account_container").accordion();
+			    }
 			  });
 			});
 		</script>
@@ -25,13 +26,11 @@
 	<body>
 	
 		<script type="text/template" id="account_template">
-  			<span>Account</span>
+			<h3 class="account-name"><%= name %></h3>
+			<div class="account-description"><%= description %></div>
 		</script>
 	
-		<div id="account_container"></div>
-		<div>
-			<a id="alertAccounts">Accounts</a>
-		</div>
+		<div class="accordion" id="account_container"></div>
 		<div>
 			<a href="/logout">Logout</a>
 		</div>
