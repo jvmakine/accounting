@@ -12,12 +12,17 @@
 		<script type="text/javascript" src="/js/backbone-min.js"></script>
 		<script type="text/javascript" src="/js/accounting.js"></script>
 		<script type="text/javascript">
+		
+			var makeAccountAccordion = function() {
+			  $("#account_container").accordion({ collapsible: true, active: null });
+			}
+		
 			$(function() {
-			  $(".accordion").accordion();
+			  makeAccountAccordion();
 			  accounting.init({
 			    onAccountRefresh: function() {
 					$("#account_container").accordion('destroy');
-		        	$("#account_container").accordion();
+					makeAccountAccordion();
 			    }
 			  });
 			});
@@ -29,10 +34,10 @@
 			<h3 class="account-name"><%= name %></h3>
 			<div class="account-description"><%= description %></div>
 		</script>
-	
-		<div class="accordion" id="account_container"></div>
 		<div>
 			<a href="/logout">Logout</a>
+			<a href="#">New Account</a>
 		</div>
+		<div class="accounts" id="account_container"></div>
 	</body>
 </html>
