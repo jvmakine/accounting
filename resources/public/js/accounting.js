@@ -57,7 +57,7 @@ var accounting = (function() {
     var account = new AccountModel();
     account.save(accountDetails, {
       success: function (account) {
-        alert(account.toJSON());
+        Accounts.add(account);
       }
     });
   }

@@ -49,7 +49,7 @@
   (POST urls/signup [username password password-again] (operations/signup username password password-again))
   ; RESTful urls for accounts
   (GET urls/account [] (json-response (operations/get-accounts)))
-  (POST urls/account {body :body} (let [json (parse-json body)] (operations/new-account (json :name) (json :description))))
+  (POST urls/account {body :body} (let [json (parse-json body)] (json-response (operations/new-account (json :name) (json :description)))))
   ; Other utils
   (route/resources "/")
   (route/not-found (views/page-not-found)))
