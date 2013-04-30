@@ -38,6 +38,8 @@
    :headers {"Content-Type" "application/json"}
    :body (json/generate-string data)})
 
+(defn parse-json [body] (json/parse-string (slurp body) true))
+
 (defroutes accounting-routes
   ; Account management
   (GET urls/logout [] (operations/logout))
@@ -47,7 +49,7 @@
   (POST urls/signup [username password password-again] (operations/signup username password password-again))
   ; RESTful urls for accounts
   (GET urls/account [] (json-response (operations/get-accounts)))
-  (POST urls/account [name description] (operations/new-account name description))
+  (POST urls/account {body :body} (let [json (parse-json body)] (operations/new-account (json :name) (json :description))))
   ; Other utils
   (route/resources "/")
   (route/not-found (views/page-not-found)))

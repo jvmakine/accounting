@@ -17,6 +17,29 @@
 			  $("#account_container").accordion({ collapsible: true, active: null });
 			}
 		
+			var makeNewAccountDialog = function() {
+				$("#new_account_dialog").dialog({
+			      	autoOpen: false,
+			      	height: 360,
+			      	width: 350,
+			      	modal: true,
+			      	draggable: false,
+			      	resizable: false,
+			      	buttons: {
+			        	"Create": function() {
+				          	accounting.createAccount({
+					            name: $("#new_account_name").val(),
+					            description: $("#new_account_description").val()
+					        });
+				    	    $("#new_account_dialog").dialog("close");
+			        	},
+			        	"Cancel": function() { 
+			          		$("#new_account_dialog").dialog("close"); 
+			        	}
+			      	}
+	      		});
+			}
+			
 			var clearNewAccountForm = function() {
 				$("#new_account_name").val("");
 				$("#new_account_description").val("");
@@ -24,18 +47,7 @@
 			
 			$(function() {
 			  makeAccountAccordion();
-			  $("#new_account_dialog").dialog({
-			      autoOpen: false,
-			      height: 360,
-			      width: 350,
-			      modal: true,
-			      draggable: false,
-			      resizable: false,
-			      buttons: {
-			        "Create": function() {},
-			        "Cancel": function() { $("#new_account_dialog").dialog("close"); }
-			      }
-		      });
+			  makeNewAccountDialog();
 			  $("#new_account_button").click(function(e){
 			    clearNewAccountForm();
 			    $("#new_account_dialog").dialog("open");

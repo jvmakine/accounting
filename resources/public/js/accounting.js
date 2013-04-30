@@ -53,6 +53,15 @@ var accounting = (function() {
     return collectionToJSON(Accounts);
   }
   
+  publicInterface.createAccount = function(accountDetails) {
+    var account = new AccountModel();
+    account.save(accountDetails, {
+      success: function (account) {
+        alert(account.toJSON());
+      }
+    });
+  }
+  
   publicInterface.init = function(opts) {
     parseOptions(opts);
     Accounts.fetch();
