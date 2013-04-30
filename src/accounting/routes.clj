@@ -42,14 +42,21 @@
 
 (defroutes accounting-routes
   ; Account management
-  (GET urls/logout [] (operations/logout))
-  (GET urls/login [request] (views/login #{}))
-  (POST urls/login [username password] (operations/login username password))
-  (GET urls/signup [] (views/signup #{}))
-  (POST urls/signup [username password password-again] (operations/signup username password password-again))
+  (GET urls/logout [] 
+       (operations/logout))
+  (GET urls/login [request] 
+       (views/login #{}))
+  (POST urls/login [username password] 
+        (operations/login username password))
+  (GET urls/signup [] 
+       (views/signup #{}))
+  (POST urls/signup [username password password-again] 
+        (operations/signup username password password-again))
   ; RESTful urls for accounts
-  (GET urls/account [] (json-response (operations/get-accounts)))
-  (POST urls/account {body :body} (let [json (parse-json body)] (json-response (operations/new-account (json :name) (json :description)))))
+  (GET urls/account [] 
+       (json-response (operations/get-accounts)))
+  (POST urls/account {body :body} 
+        (json-response (let [json (parse-json body)] (operations/new-account (json :name) (json :description)))))
   ; Other utils
   (route/resources "/")
   (route/not-found (views/page-not-found)))

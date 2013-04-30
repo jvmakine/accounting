@@ -22,6 +22,7 @@ var accounting = (function() {
         var template = _.template( $("#account_template").html(), {
           name: model.get("name"),
           description: model.get("description"),
+          id: model.get("id")
         });
         elem.append(template);
         onAccountRefresh();
