@@ -19,6 +19,17 @@
 		
 			$(function() {
 			  makeAccountAccordion();
+			  $("#new_account_dialog").dialog({
+			      autoOpen: false,
+			      height: 300,
+			      width: 350,
+			      modal: true,
+			      draggable: false,
+			      resizable: false
+		      });
+			  $("#new_account_button").click(function(e){
+			    $("#new_account_dialog").dialog("open");
+			  })
 			  accounting.init({
 			    onAccountRefresh: function() {
 					$("#account_container").accordion('destroy');
@@ -29,15 +40,27 @@
 		</script>
 	</head>
 	<body>
-	
 		<script type="text/template" id="account_template">
 			<h3 class="account-name"><%= name %></h3>
 			<div class="account-description"><%= description %></div>
 		</script>
 		<div>
 			<a href="/logout">Logout</a>
-			<a href="#">New Account</a>
+			<a href="#" id="new_account_button">New Account</a>
 		</div>
 		<div class="accounts" id="account_container"></div>
+		
+		<div id="new_account_dialog" title="Create new account">
+			<form>
+    			<div class="form-element">
+    				<label for="name">Name</label>
+    				<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+    			</div>
+    			<div class="form-element">
+    				<label for="description">Description</label>
+    				<textarea name="description" id="email" class="textarea ui-widget-content ui-corner-all"></textarea>
+    			</div>
+  			</form>
+		</div>
 	</body>
 </html>
