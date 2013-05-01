@@ -3,8 +3,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Accounting</title>
-		<link rel="stylesheet" type="text/css" href="/css/accounting.css">
 		<link rel="stylesheet" type="text/css" href="/css/cupertino/jquery-ui-1.10.2.custom.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/accounting.css">
 		<script type="text/javascript" src="/js/jquery-1.9.1.js"></script>
 		<script type="text/javascript" src="/js/jquery-ui-1.10.2.custom.min.js"></script>
 		<script type="text/javascript" src="/js/decorator.js"></script>
@@ -95,7 +95,12 @@
 	<body>
 		<script type="text/template" id="account_template">
 			<h3 class="account-name" account-id="<%= id %>">
-              <%= name %>
+			  <span class="account-sum">
+              	300 €
+			  </span>
+			  <span class="account-name">
+              	<%= name %>
+			  </span>
               <span class="account-toolbar" style="float:right;" class="ui-widget-header ui-corner-all">
                  <a href="#" class="delete-account-button">Delete</a>
               </span>

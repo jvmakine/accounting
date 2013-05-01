@@ -28,21 +28,24 @@
   (let [msg (key errors)]
     (if (nil? msg) "" [:div {:class "error"} msg])))
 
+(defn jqueryui-field []
+  {:class "text ui-widget-content ui-corner-all"})
+
 (defn signup [errors] 
   (page-template "Sign up" 
                  (form-to [:post urls/signup]
                           [:table 
                            [:tr
                             [:td (label "username" "Username")]
-                            [:td (text-field "username")]
+                            [:td (text-field (jqueryui-field) "username")]
                             [:td (print-error :username errors)]]
                            [:tr
                             [:td (label "password" "Password")]
-                            [:td (password-field "password")]
+                            [:td (password-field (jqueryui-field) "password")]
                             [:td (print-error :password errors)]]
                            [:tr
                             [:td (label "password-again" "Retype password")]
-                            [:td (password-field "password-again")]
+                            [:td (password-field (jqueryui-field) "password-again")]
                             [:td (print-error :password errors)]]
                            [:tr
                             [:td (submit-button "Register")]
@@ -56,11 +59,11 @@
                           [:table
                            [:tr
                             [:td (label "username" "Username")]
-                            [:td (text-field "username")]
+                            [:td (text-field (jqueryui-field) "username")]
                             [:td (print-error :login errors)]]
                            [:tr
                             [:td (label "password" "Password")]
-                            [:td (password-field "password")]
+                            [:td (password-field (jqueryui-field) "password")]
                             [:td (print-error :login errors)]]
                            [:tr
                             [:td (submit-button "Login")]
