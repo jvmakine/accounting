@@ -29,10 +29,7 @@ var accounting = (function() {
       });
       return this;
     },
-    initialize: function() {
-      var _this = this;
-      this.collection.bind( "add", function() { _this.render(_this.$el); } );
-    }
+    initialize: function() {}
   });
   
   function newCollection(url) {
@@ -65,8 +62,13 @@ var accounting = (function() {
   
   publicInterface.init = function(opts) {
     parseOptions(opts);
-    Accounts.fetch();
     var account_view = new AccountView({ el: $('#account_container'), collection: Accounts });
+    Accounts.fetch({
+      success: function() {
+        account_view.render(account_view.$el);
+        this.collection.bind( "add", function() { account_view.render(account_view.$el); } );
+      }
+    });
   }
   
   return publicInterface;
