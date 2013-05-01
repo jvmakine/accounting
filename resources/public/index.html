@@ -13,6 +13,8 @@
 		<script type="text/javascript" src="/js/accounting.js"></script>
 		<script type="text/javascript">
 		
+		    var activeAccountId = null;
+		
 			var makeAccountAccordion = function() {
 			  $("#account_container").accordion({ collapsible: true, active: null });
 			  $(".delete-account-button").unbind('click');
@@ -20,6 +22,7 @@
 		    	event.stopPropagation();
 		    	event.preventDefault();
 		    	var accountId = $(this).closest("h3").attr("account-id");
+		    	activeAccountId = accountId;
 		    	$("#delete_account_dialog").dialog("open");
 		  	  });
 			}
@@ -57,6 +60,8 @@
 	      		resizable: false,
 	      		buttons: {
 	        		"Delete": function() {
+	        		  accounting.deleteAccount(activeAccountId);
+	        		  $("#delete_account_dialog").dialog("close");
 	        		},
 	        		"Cancel": function() {
 	        		  $("#delete_account_dialog").dialog("close");

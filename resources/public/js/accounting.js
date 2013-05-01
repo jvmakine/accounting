@@ -38,19 +38,11 @@ var accounting = (function() {
     return result;
   }
   
-  function collectionToJSON(collection) {
-    return _.map(collection.models, function(model) { return model.toJSON(); } );
-  }
-  
   function parseOptions(opts) {
     opts = opts || {}
     onAccountRefresh = opts.onAccountRefresh || function() {};
   }
-  
-  publicInterface.listAccounts = function() {
-    return collectionToJSON(Accounts);
-  }
-  
+    
   publicInterface.createAccount = function(accountDetails) {
     var account = new AccountModel();
     account.save(accountDetails, {
@@ -60,13 +52,18 @@ var accounting = (function() {
     });
   }
   
+  publicInterface.deleteAccount = function(id) {
+    Accounts.remove(Accounts.get(id));
+  }
+  
   publicInterface.init = function(opts) {
     parseOptions(opts);
     var account_view = new AccountView({ el: $('#account_container'), collection: Accounts });
     Accounts.fetch({
       success: function() {
         account_view.render(account_view.$el);
-        this.collection.bind( "add", function() { account_view.render(account_view.$el); } );
+        Accounts.bind( "add", function() { account_view.render(account_view.$el); } );
+        Accounts.bind( "remove", function() { account_view.render(account_view.$el); } );
       }
     });
   }
