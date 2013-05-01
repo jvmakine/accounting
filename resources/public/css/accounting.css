@@ -41,5 +41,8 @@ textarea {
 
 span.account-sum {
 	margin-right: 15px;
+}
+
+span.account-sum.positive {
 	color: green;
 }
