@@ -57,6 +57,8 @@
        (json-response (operations/get-accounts)))
   (POST urls/account {body :body} 
         (json-response (let [json (parse-json body)] (operations/new-account (json :name) (json :description)))))
+  (DELETE (str urls/account "/:id") [id] 
+       (operations/delete-account (read-string id)))
   ; Other utils
   (route/resources "/")
   (route/not-found (views/page-not-found)))

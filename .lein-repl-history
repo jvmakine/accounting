@@ -76,3 +76,9 @@ exiy
 (a/new "testi" "foo" 8)
 (require '(accounting.service [account :as a]))
 (a/new "testi33" "foo" 8)
+(require '(accounting.service [account :as a]))
+(a/remove [8 21])
+(a/remove 8 21)
+(read-string "66")
+(+ "6" 6)
+"6"

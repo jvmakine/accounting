@@ -20,3 +20,7 @@
   (select db/account
           (fields :name :id :description)
           (where {:users_id user-id})))
+
+(defn remove [user-id account-id]
+  (delete db/account
+          (where {:users_id user-id :id account-id})))

@@ -42,3 +42,6 @@
 
 (defn get-accounts []
   (account/list (current-user-id)))
+
+(defn delete-account [id]
+  (account/remove (current-user-id) id))

@@ -53,7 +53,9 @@ var accounting = (function() {
   }
   
   publicInterface.deleteAccount = function(id) {
-    Accounts.remove(Accounts.get(id));
+    var model = Accounts.get(id);
+    model.destroy();
+    Accounts.remove(model);
   }
   
   publicInterface.init = function(opts) {
