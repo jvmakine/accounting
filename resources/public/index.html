@@ -15,6 +15,13 @@
 		
 			var makeAccountAccordion = function() {
 			  $("#account_container").accordion({ collapsible: true, active: null });
+			  $(".delete-account-button").unbind('click');
+			  $(".delete-account-button").click(function(event) {
+		    	event.stopPropagation();
+		    	event.preventDefault();
+		    	var accountId = $(this).closest("h3").attr("account-id");
+		    	$("#delete_account_dialog").dialog("open");
+		  	  });
 			}
 		
 			var makeNewAccountDialog = function() {
@@ -40,6 +47,24 @@
 	      		});
 			}
 			
+			var makeDeleteAccountDialog = function() {
+			  $("#delete_account_dialog").dialog({
+			    autoOpen: false,
+	      		height: 200,
+	      		width: 300,
+	      		modal: true,
+	      		draggable: false,
+	      		resizable: false,
+	      		buttons: {
+	        		"Delete": function() {
+	        		},
+	        		"Cancel": function() {
+	        		  $("#delete_account_dialog").dialog("close");
+	        		}
+	      		 }	
+			  });
+			}
+			
 			var clearNewAccountForm = function() {
 				$("#new_account_name").val("");
 				$("#new_account_description").val("");
@@ -48,6 +73,7 @@
 			$(function() {
 			  makeAccountAccordion();
 			  makeNewAccountDialog();
+			  makeDeleteAccountDialog();
 			  $("#new_account_button").click(function(e){
 			    clearNewAccountForm();
 			    $("#new_account_dialog").dialog("open");
@@ -63,8 +89,15 @@
 	</head>
 	<body>
 		<script type="text/template" id="account_template">
-			<h3 class="account-name" account-id="<%= id %>"><%= name %></h3>
-			<div class="account-description"><%= description %></div>
+			<h3 class="account-name" account-id="<%= id %>">
+              <%= name %>
+              <span class="account-toolbar" style="float:right;" class="ui-widget-header ui-corner-all">
+                 <a href="#" class="delete-account-button">Delete</a>
+              </span>
+            </h3>
+			<div class="account-content" >
+ 				<%= description %>
+			</div>
 		</script>
 		<div>
 			<a href="/logout">Logout</a>
@@ -83,6 +116,9 @@
     				<textarea name="description" id="new_account_description" class="textarea ui-widget-content ui-corner-all"></textarea>
     			</div>
   			</form>
+		</div>
+		<div id="delete_account_dialog" title="Delete an account">
+			Are you sure you want to delete the account?
 		</div>
 	</body>
 </html>
