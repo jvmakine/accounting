@@ -73,7 +73,6 @@ span.event-amount.negative {
 	height: 25px;
 }
 
-.delete-account-button .ui-button-icon-primary,
-.add-event-button .ui-button-icon-primary {
+.icon-button .ui-button-icon-primary {
 	left: 4px;
 }
