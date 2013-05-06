@@ -66,3 +66,14 @@ span.event-amount.negative {
 .account-events {
 	margin-top: 5px;
 }
+
+.delete-account-button,
+.add-event-button {
+	width: 25px;
+	height: 25px;
+}
+
+.delete-account-button .ui-button-icon-primary,
+.add-event-button .ui-button-icon-primary {
+	left: 4px;
+}
