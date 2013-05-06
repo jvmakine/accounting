@@ -19,8 +19,9 @@
 			  $("#account_container").accordion({ collapsible: true, active: null,
 			    beforeActivate: function( event, ui ) {
 			      var panel = ui.newPanel;
-			      accounting.renderAccountEvents($(panel), $(panel).attr("account-id"));
-			    }});
+			      accounting.renderAccountEvents($(panel).children('.account-events'), $(panel).attr("account-id"));
+			    },
+			    heightStyle: "content"});
 			  $(".delete-account-button").unbind('click');
 			  $(".delete-account-button").click(function(event) {
 		    	event.stopPropagation();

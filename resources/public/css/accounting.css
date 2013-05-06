@@ -62,3 +62,7 @@ span.event-amount.negative {
 .event-content {
 	background-color: #e2e5e7;
 }
+
+.account-events {
+	margin-top: 5px;
+}
