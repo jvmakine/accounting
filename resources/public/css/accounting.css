@@ -46,3 +46,7 @@ span.account-sum {
 span.account-sum.positive {
 	color: green;
 }
+
+span.account-sum.negative {
+	color: red;
+}

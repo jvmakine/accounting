@@ -22,7 +22,9 @@ var accounting = (function() {
         var template = _.template( $("#account_template").html(), {
           name: model.get("name"),
           description: model.get("description"),
-          id: model.get("id")
+          id: model.get("id"),
+          total: model.get("total"),
+          total_class: model.get("total") < 0 ? "negative" : "positive"
         });
         elem.append(template);
         onAccountRefresh();

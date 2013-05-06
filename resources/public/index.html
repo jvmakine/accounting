@@ -95,8 +95,8 @@
 	<body>
 		<script type="text/template" id="account_template">
 			<h3 class="account-name" account-id="<%= id %>" >
-			  <span class="account-sum positive">
-              	300 €
+			  <span class="account-sum <%= total_class %>">
+              	<%= total %> €
 			  </span>
 			  <span class="account-name">
               	<%= name %>
