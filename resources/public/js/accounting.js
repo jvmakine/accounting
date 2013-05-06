@@ -15,6 +15,11 @@ var accounting = (function() {
     defaults: {}
   });
   
+  var EventModel = Backbone.Model.extend({
+    urlRoot: '/rest/event',
+    defaults: {}
+  });
+  
   var AccountView = Backbone.View.extend({
     render: function(elem) {
       elem.html("");
@@ -28,6 +33,23 @@ var accounting = (function() {
         });
         elem.append(template);
         onAccountRefresh();
+      });
+      return this;
+    },
+    initialize: function() {}
+  });
+  
+  var EventView = Backbone.View.extend({
+    render: function(elem) {
+      elem.html("");
+      _.each(this.collection.models, function(model) {
+        var template = _.template( $("#event_template").html(), {
+          description: model.get("description"),
+          id: model.get("id"),
+          amount: model.get("amount"),
+          amount_class: model.get("amount") < 0 ? "negative" : "positive"
+        });
+        elem.append(template);
       });
       return this;
     },
@@ -60,6 +82,18 @@ var accounting = (function() {
     Accounts.remove(model);
   }
   
+  publicInterface.renderAccountEvents = function(element, account_id) {
+    if(account_id) {
+      var events = newCollection('/rest/account/' + account_id + '/events');
+      events.fetch({
+        success: function() {
+          var event_view = new EventView({ el: element, collection: events });
+          event_view.render(event_view.$el);
+        }
+      });
+    }
+  }
+  
   publicInterface.init = function(opts) {
     parseOptions(opts);
     var account_view = new AccountView({ el: $('#account_container'), collection: Accounts });
@@ -71,6 +105,10 @@ var accounting = (function() {
       }
     });
   }
+  
+  
+  
+  
   
   return publicInterface;
 }());

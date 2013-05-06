@@ -50,3 +50,15 @@ span.account-sum.positive {
 span.account-sum.negative {
 	color: red;
 }
+
+span.event-amount.positive {
+	color: green;
+}
+
+span.event-amount.negative {
+	color: red;
+}
+
+.event-content {
+	background-color: #e2e5e7;
+}

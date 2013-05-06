@@ -16,7 +16,11 @@
 		    var activeAccountId = null;
 		
 			var makeAccountAccordion = function() {
-			  $("#account_container").accordion({ collapsible: true, active: null });
+			  $("#account_container").accordion({ collapsible: true, active: null,
+			    beforeActivate: function( event, ui ) {
+			      var panel = ui.newPanel;
+			      accounting.renderAccountEvents($(panel), $(panel).attr("account-id"));
+			    }});
 			  $(".delete-account-button").unbind('click');
 			  $(".delete-account-button").click(function(event) {
 		    	event.stopPropagation();
@@ -105,9 +109,15 @@
                  <a href="#" class="delete-account-button">Delete</a>
               </span>
             </h3>
-			<div class="account-content" >
+			<div class="account-content" account-id="<%= id %>" >
 				<div> <%= description %> </div>
 				<div class="account-events">  </div>
+			</div>
+		</script>
+		<script type="text/template" id="event_template">
+			<div class="event-content" event-id="<%= id %>" >
+				<span class="event-amount <%= amount_class %>"> <%= amount %> </span>
+				<span class="event-description"> <%= description %> </span>
 			</div>
 		</script>
 		<div>
