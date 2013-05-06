@@ -22,3 +22,10 @@
   (pk :id)
   (entity-fields :name :description :id :creation_time)
   (has-one users))
+
+(defentity event
+  (table :event)
+  (database accounting-db)
+  (pk :id)
+  (entity-fields :id :account_id :target_account_id :description :amount :cumulative_amount :change_type :event_date)
+  (has-one account))

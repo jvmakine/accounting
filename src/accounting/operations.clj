@@ -6,6 +6,7 @@
   (:require [accounting.urls :as urls])
   (:require [accounting.service.user :as user])
   (:require [accounting.service.account :as account])
+  (:require [accounting.service.event :as event])
   (:require [accounting.views :as views]))
 
 (defn login [username password]
@@ -45,3 +46,8 @@
 
 (defn delete-account [id]
   (account/remove (current-user-id) id))
+
+(defn get-events [account-id]
+  (if (account/user-account? (current-user-id) account-id)
+    (event/list (current-user-id) account-id)
+    (throw (Throwable. "Illegal account access"))))

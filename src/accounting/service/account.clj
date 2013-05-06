@@ -34,3 +34,9 @@ from account a left join event e on (e.account_id = a.id) where a.users_id=? gro
 (defn remove [user-id account-id]
   (delete db/account
           (where {:users_id user-id :id account-id})))
+
+(defn user-account? [user-id account-id]
+  (not (empty? 
+    (select db/account
+          (where {:users_id user-id :id account-id})))))
+  
