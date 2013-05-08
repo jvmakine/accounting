@@ -102,6 +102,7 @@ var accounting = (function() {
         account_view.render(account_view.$el);
         Accounts.bind( "add", function() { account_view.render(account_view.$el); } );
         Accounts.bind( "remove", function() { account_view.render(account_view.$el); } );
+        Accounts.bind( "change", function() { account_view.render(account_view.$el); } );
       }
     });
   }
@@ -110,7 +111,8 @@ var accounting = (function() {
     var event = new EventModel();
     event.save(eventDetails, {
       success: function (event) {
-        
+        var account = Accounts.get(event.get("account_id"));
+        account.set("total", account.get("total") + event.get("amount"));
       }
     });
   }
