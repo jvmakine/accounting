@@ -39,28 +39,34 @@ textarea {
 	height: 100px;
 }
 
-span.account-sum {
+.account-sum {
 	margin-right: 15px;
 }
 
-span.account-sum.positive {
+.account-sum.positive {
 	color: green;
 }
 
-span.account-sum.negative {
+.account-sum.negative {
 	color: red;
 }
 
-span.event-amount.positive {
+.event-amount {
+	width: 80px;
+	text-align: right;
+	padding-right: 15px;
+}
+
+.event-amount.positive {
 	color: green;
 }
 
-span.event-amount.negative {
+.event-amount.negative {
 	color: red;
 }
 
 .event-content {
-	background-color: #e2e5e7;
+	background-color: rgb(215,239,255);
 }
 
 .account-events {
@@ -75,4 +81,9 @@ span.event-amount.negative {
 
 .icon-button .ui-button-icon-primary {
 	left: 4px;
+}
+
+.account-events {
+	border-spacing: 0px;
+	width: 100%;
 }

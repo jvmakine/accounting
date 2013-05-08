@@ -160,14 +160,14 @@
             </h3>
 			<div class="account-content" account-id="<%= id %>" >
 				<div> <%= description %> </div>
-				<div class="account-events">  </div>
+				<table class="account-events">  </table>
 			</div>
 		</script>
 		<script type="text/template" id="event_template">
-			<div class="event-content" event-id="<%= id %>" >
-				<span class="event-amount <%= amount_class %>"> <%= amount %> </span>
-				<span class="event-description"> <%= description %> </span>
-			</div>
+			<tr class="event-content" event-id="<%= id %>" >
+				<td class="event-amount <%= amount_class %>"> <%= amount %> € </td>
+				<td class="event-description"> <%= description %> </td>
+			</tr>
 		</script>
 		<div>
 			<a href="/logout">Logout</a>
