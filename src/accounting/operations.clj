@@ -51,3 +51,8 @@
   (if (account/user-account? (current-user-id) account-id)
     (event/list (current-user-id) account-id)
     (throw (Throwable. "Illegal account access"))))
+
+(defn new-event [account-id description amount]
+  (if (account/user-account? (current-user-id) account-id)
+    (event/new account-id description amount)
+    (throw (Throwable. "Illegal account access"))))

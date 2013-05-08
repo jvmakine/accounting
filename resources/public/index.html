@@ -44,6 +44,7 @@
 		    	event.preventDefault();
 		    	var accountId = $(this).closest("h3").attr("account-id");
 		    	activeAccountId = accountId;
+		    	clearNewEventForm();
 		    	$("#new_event_dialog").dialog("open");
 		  	  });
 			}
@@ -81,6 +82,11 @@
 			      	resizable: false,
 			      	buttons: {
 			        	"Create": function() {
+			        	  	accounting.createEvent({
+			        	  	  account_id: activeAccountId,
+			        	  	  description: $("#new_event_description").val(),
+			        	  	  amount: $("#new_event_amount").val()
+			        	  	})
 				    	    $("#new_event_dialog").dialog("close");
 			        	},
 			        	"Cancel": function() { 
@@ -113,6 +119,11 @@
 			var clearNewAccountForm = function() {
 				$("#new_account_name").val("");
 				$("#new_account_description").val("");
+			}
+			
+			var clearNewEventForm = function() {
+				$("#new_event_amount").val("");
+				$("#new_event_description").val("");
 			}
 			
 			$(function() {

@@ -106,9 +106,14 @@ var accounting = (function() {
     });
   }
   
-  
-  
-  
+  publicInterface.createEvent = function(eventDetails) {
+    var event = new EventModel();
+    event.save(eventDetails, {
+      success: function (event) {
+        
+      }
+    });
+  }
   
   return publicInterface;
 }());

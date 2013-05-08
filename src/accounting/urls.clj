@@ -6,3 +6,4 @@
 (def signup "/signup")
 
 (def account "/rest/account")
+(def event "/rest/event")

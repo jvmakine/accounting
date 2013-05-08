@@ -62,6 +62,11 @@
   ; RESTful urls for events
   (GET (str urls/account "/:id/events") [id] 
        (json-response (operations/get-events (read-string id))))
+  (POST urls/event {body :body} 
+        (json-response (let [json (parse-json body)] 
+                         (operations/new-event (read-string (json :account_id)) 
+                                               (json :description) 
+                                               (read-string (json :amount))))))
   ; Other utils
   (route/resources "/")
   (route/not-found (views/page-not-found)))
