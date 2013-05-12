@@ -10,6 +10,11 @@
      :port "5432"
      :delimiters ""}))
 
+(defn convert-date [key lst]
+  (map #(let [val (key %)]
+          (merge % {key (java.util.Date. (.getTime val))}))
+       lst))
+
 (defentity users
   (table :users)
   (database accounting-db)

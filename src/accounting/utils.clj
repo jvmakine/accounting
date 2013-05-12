@@ -9,4 +9,7 @@
     (.toString
       (new java.math.BigInteger 1 (.digest hash-bytes)) 16)))
 
-
+(defn keys-to-string [key lst]
+  (map #(let [val (key %)]
+          (merge % {key (str val)})) 
+       lst))

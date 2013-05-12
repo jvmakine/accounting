@@ -4,6 +4,7 @@
     (ring.util response)
     (sandbar core stateful-session))
   (:require [accounting.urls :as urls])
+  (:require [accounting.utils :as utils])
   (:require [accounting.service.user :as user])
   (:require [accounting.service.account :as account])
   (:require [accounting.service.event :as event])
@@ -49,7 +50,7 @@
 
 (defn get-events [account-id]
   (if (account/user-account? (current-user-id) account-id)
-    (event/list (current-user-id) account-id)
+    (utils/keys-to-string :event_date (event/list (current-user-id) account-id))
     (throw (Throwable. "Illegal account access"))))
 
 (defn new-event [account-id description amount]

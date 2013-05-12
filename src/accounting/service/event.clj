@@ -4,8 +4,9 @@
 
 (defn list [user-id account-id] 
   (select db/event
-          (fields :description :amount :id)
-          (where (= :account_id account-id))))
+          (fields :description :amount :id :event_date)
+          (where (= :account_id account-id))
+          (order :event_date  :ASC)))
 
 (defn new [account-id description amount]
   (let [ins (insert db/event 
