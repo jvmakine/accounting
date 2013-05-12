@@ -65,6 +65,12 @@ textarea {
 	color: red;
 }
 
+.event-date {
+	width: 6em;
+	text-align: right;
+	padding-right: 15px;
+}
+
 .event-content {
 	background-color: rgb(215,239,255);
 }
