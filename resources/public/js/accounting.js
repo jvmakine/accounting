@@ -113,7 +113,8 @@ var accounting = (function() {
     event.save(eventDetails, {
       success: function (event) {
         var account = Accounts.get(event.get("account_id"));
-        account.set("total", account.get("total") + event.get("amount"));
+        var old_total = account.get("total") || 0;
+        account.set("total", old_total + event.get("amount"));
       }
     });
   }
