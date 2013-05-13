@@ -25,3 +25,23 @@ CREATE TABLE EVENT (
   CHANGE_TYPE VARCHAR(32) NOT NULL,
   EVENT_DATE DATE NOT NULL
 );
+
+CREATE FUNCTION updateCumulative() RETURNS TRIGGER AS '
+  BEGIN
+    UPDATE event SET cumulative_amount = cumulative_amount + NEW.amount 
+      WHERE (event_date > NEW.event_date OR (event_date = NEW.event_date AND id > NEW.id)) AND account_id = NEW.account_id;
+    IF EXISTS (SELECT * FROM event WHERE account_id = NEW.account_id AND id != NEW.id) THEN
+      UPDATE event SET cumulative_amount = (
+        SELECT cumulative_amount FROM event WHERE
+          (event_date < NEW.event_date OR (event_date = NEW.event_date AND id < NEW.id)) AND account_id = NEW.account_id
+          ORDER BY event_date DESC, id DESC
+          LIMIT 1
+      ) + NEW.amount WHERE id = NEW.id;
+    ELSE
+	  UPDATE event SET cumulative_amount = amount WHERE id = NEW.id;
+    END IF;
+    RETURN NULL;
+  END'
+LANGUAGE plpgsql;
+
+CREATE TRIGGER UPDATE_CUMULATIVE AFTER INSERT ON EVENT FOR EACH ROW EXECUTE PROCEDURE updateCumulative();

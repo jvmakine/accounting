@@ -6,7 +6,8 @@
   (select db/event
           (fields :description :amount :id :event_date)
           (where (= :account_id account-id))
-          (order :event_date  :ASC)))
+          (order :event_date :ASC)
+          (order :id :ASC)))
 
 (defn new [account-id description amount]
   (let [ins (insert db/event 
