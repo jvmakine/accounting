@@ -51,16 +51,18 @@ textarea {
 	color: red;
 }
 
+.event-cumulative,
 .event-amount {
 	width: 80px;
 	text-align: right;
 	padding-right: 15px;
 }
 
+.event-cumulative.positive,
 .event-amount.positive {
 	color: green;
 }
-
+.event-cumulative.negative,
 .event-amount.negative {
 	color: red;
 }

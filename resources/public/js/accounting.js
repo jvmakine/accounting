@@ -48,7 +48,9 @@ var accounting = (function() {
           id: model.get("id"),
           amount: model.get("amount"),
           amount_class: model.get("amount") < 0 ? "negative" : "positive",
-          event_date: model.get("event_date")            
+          event_date: model.get("event_date"),
+          cumulative_amount: model.get("cumulative_amount"),
+          cumulative_class: model.get("cumulative_amount") < 0 ? "negative" : "positive"
         });
         elem.append(template);
       });

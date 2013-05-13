@@ -4,7 +4,7 @@
 
 (defn list [user-id account-id] 
   (select db/event
-          (fields :description :amount :id :event_date)
+          (fields :description :amount :id :event_date :cumulative_amount)
           (where (= :account_id account-id))
           (order :event_date :ASC)
           (order :id :ASC)))
@@ -19,4 +19,5 @@
     {:amount (:amount ins) 
      :description (:description ins) 
      :account_id (:account_id ins)
+     :cumulative_amount (:cumulative_amount ins)
      :id (:id ins)}))
