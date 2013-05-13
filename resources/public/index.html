@@ -75,8 +75,8 @@
 			var makeNewEventDialog = function() {
 				$("#new_event_dialog").dialog({
 			      	autoOpen: false,
-			      	height: 280,
-			      	width: 350,
+			      	height: 310,
+			      	width: 400,
 			      	modal: true,
 			      	draggable: false,
 			      	resizable: false,
@@ -200,7 +200,12 @@
     			</div>
     			<div class="form-element">
     				<label for="amount">Amount</label>
-    				<input name="amount" id="new_event_amount" class="textarea ui-widget-content ui-corner-all" />
+    				<input name="amount" id="new_event_amount" type="text" 
+    				class="textarea ui-widget-content ui-corner-all" />
+    			</div>
+    			<div class="form-element">
+    				<label for="transfer">Transfer to/from another account</label>
+    				<input type="checkbox" name="transfer" id="event-transfer" />
     			</div>
   			</form>
 		</div>
