@@ -39,7 +39,12 @@ var accounting = (function() {
     initialize: function() {}
   });
   
-  var EventView = Backbone.View.extend({
+  var amountClassFromModel = function(model) {
+    if(model.get("change_type") === "transfer") return "transfer";
+    return model.get("amount") < 0 ? "negative" : "positive";
+  }
+  
+  var EventView = Backbone.View.extend({ 
     render: function(elem) {
       elem.html("");
       _.each(this.collection.models, function(model) {
@@ -47,7 +52,7 @@ var accounting = (function() {
           description: model.get("description"),
           id: model.get("id"),
           amount: model.get("amount"),
-          amount_class: model.get("amount") < 0 ? "negative" : "positive",
+          amount_class: amountClassFromModel(model),
           event_date: model.get("event_date"),
           cumulative_amount: model.get("cumulative_amount"),
           cumulative_class: model.get("cumulative_amount") < 0 ? "negative" : "positive"

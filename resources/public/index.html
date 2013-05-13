@@ -82,10 +82,12 @@
 			      	resizable: false,
 			      	buttons: {
 			        	"Create": function() {
+			        	    var isTransfer = $('#event-transfer').is(':checked')
 			        	  	accounting.createEvent({
 			        	  	  account_id: activeAccountId,
 			        	  	  description: $("#new_event_description").val(),
-			        	  	  amount: $("#new_event_amount").val()
+			        	  	  amount: $("#new_event_amount").val(),
+			        	  	  change_type: (isTransfer ? "transfer" : "change")
 			        	  	})
 				    	    $("#new_event_dialog").dialog("close");
 			        	},
@@ -124,6 +126,7 @@
 			var clearNewEventForm = function() {
 				$("#new_event_amount").val("");
 				$("#new_event_description").val("");
+				$('#event-transfer').attr('checked', false);
 			}
 			
 			$(function() {

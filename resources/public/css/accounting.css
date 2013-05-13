@@ -67,6 +67,10 @@ textarea {
 	color: red;
 }
 
+.event-amount.transfer {
+	color: pink;
+}
+
 .event-date {
 	width: 6em;
 	text-align: right;

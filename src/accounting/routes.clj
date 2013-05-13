@@ -66,7 +66,8 @@
         (json-response (let [json (parse-json body)] 
                          (operations/new-event (read-string (json :account_id)) 
                                                (json :description) 
-                                               (read-string (json :amount))))))
+                                               (read-string (json :amount))
+                                               (json :change_type)))))
   ; Other utils
   (route/resources "/")
   (route/not-found (views/page-not-found)))

@@ -35,6 +35,12 @@
         (redirect urls/root)))
       (views/signup {:password "Passwords do not match"})))
 
+(defn valid-event-type? [type] 
+  (case type
+    "change" true
+    "transfer" true
+    false))
+
 (defn current-user [] (session-get "username"))
 
 (defn current-user-id [] (session-get "user-id"))
@@ -53,7 +59,9 @@
     (utils/keys-to-string :event_date (event/list (current-user-id) account-id))
     (throw (Throwable. "Illegal account access"))))
 
-(defn new-event [account-id description amount]
+(defn new-event [account-id description amount type]
   (if (account/user-account? (current-user-id) account-id)
-    (event/new account-id description amount)
-    (throw (Throwable. "Illegal account access"))))
+    (if (valid-event-type? type)
+      (event/new account-id description amount type)
+      (throw (Throwable. (str "Illegal event type " type)))))
+    (throw (Throwable. "Illegal account access")))
