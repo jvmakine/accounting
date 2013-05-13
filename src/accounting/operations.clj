@@ -63,5 +63,5 @@
   (if (account/user-account? (current-user-id) account-id)
     (if (valid-event-type? type)
       (event/new account-id description amount type)
-      (throw (Throwable. (str "Illegal event type " type)))))
-    (throw (Throwable. "Illegal account access")))
+      (throw (Throwable. (str "Illegal event type " type))))
+    (throw (Throwable. "Illegal account access"))))
