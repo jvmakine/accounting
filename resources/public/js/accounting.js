@@ -22,6 +22,10 @@ var accounting = (function() {
     defaults: {}
   });
   
+  var moneyRound = function(val) {
+    return Math.round(val*100)/100
+  }
+  
   var AccountView = Backbone.View.extend({
     render: function(elem) {
       elem.html("");
@@ -131,13 +135,16 @@ var accounting = (function() {
       success: function (event) {
         var account = Accounts.get(event.get("account_id"));
         var old_total = account.get("total") || 0;
-        account.set("total", old_total + event.get("amount"));
+        account.set("total", moneyRound(old_total + event.get("amount")));
       }
     });
   }
   
   publicInterface.deleteEvent = function(accountId, eventId) {
     var model = Events[accountId].get(eventId);
+    var account = Accounts.get(accountId); 
+    var old_total = account.get("total")
+    account.set("total", moneyRound(old_total - model.get("amount")));
     model.destroy();
     Events[accountId].remove(model);
   }
