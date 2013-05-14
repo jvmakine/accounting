@@ -88,6 +88,8 @@ var accounting = (function() {
     account.save(accountDetails, {
       success: function (account) {
         Accounts.add(account);
+        var id = account.get("id");
+        Events[id] = newCollection('/rest/account/' + id + '/events');
       }
     });
   }
