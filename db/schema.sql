@@ -26,7 +26,7 @@ CREATE TABLE EVENT (
   EVENT_DATE DATE NOT NULL
 );
 
-CREATE FUNCTION updateCumulative() RETURNS TRIGGER AS '
+CREATE FUNCTION updateCumulativeInsert() RETURNS TRIGGER AS '
   BEGIN
     UPDATE event SET cumulative_amount = cumulative_amount + NEW.amount 
       WHERE (event_date > NEW.event_date OR (event_date = NEW.event_date AND id > NEW.id)) AND account_id = NEW.account_id;
@@ -44,4 +44,14 @@ CREATE FUNCTION updateCumulative() RETURNS TRIGGER AS '
   END'
 LANGUAGE plpgsql;
 
-CREATE TRIGGER UPDATE_CUMULATIVE AFTER INSERT ON EVENT FOR EACH ROW EXECUTE PROCEDURE updateCumulative();
+CREATE TRIGGER UPDATE_CUMULATIVE AFTER INSERT ON EVENT FOR EACH ROW EXECUTE PROCEDURE updateCumulativeInsert();
+
+CREATE FUNCTION updateCumulativeDelete() RETURNS TRIGGER AS '
+  BEGIN
+    UPDATE event SET cumulative_amount = cumulative_amount - OLD.amount 
+      WHERE (event_date > OLD.event_date OR (event_date = OLD.event_date AND id > OLD.id)) AND account_id = OLD.account_id;
+    RETURN NULL;
+  END'
+LANGUAGE plpgsql;
+
+CREATE TRIGGER UPDATE_CUMULATIVE_DEL AFTER DELETE ON EVENT FOR EACH ROW EXECUTE PROCEDURE updateCumulativeDelete();

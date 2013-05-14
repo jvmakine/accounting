@@ -65,3 +65,8 @@
       (event/new account-id description amount type)
       (throw (Throwable. (str "Illegal event type " type))))
     (throw (Throwable. "Illegal account access"))))
+
+(defn delete-event [account-id event-id]
+  (if (account/user-account? (current-user-id) account-id)
+    (event/remove account-id event-id)
+    (throw (Throwable. "Illegal account access"))))

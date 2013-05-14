@@ -4,7 +4,7 @@
 
 (defn list [user-id account-id] 
   (select db/event
-          (fields :description :amount :id :event_date :cumulative_amount :change_type)
+          (fields :description :amount :id :event_date :cumulative_amount :change_type :account_id)
           (where (= :account_id account-id))
           (order :event_date :ASC)
           (order :id :ASC)))
@@ -22,3 +22,7 @@
      :cumulative_amount (:cumulative_amount ins)
      :id (:id ins)
      :change_type (:change_type ins)}))
+
+(defn remove [account-id event-id]
+  (delete db/event
+          (where {:account_id account-id :id event-id})))

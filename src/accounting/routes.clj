@@ -68,6 +68,8 @@
                                                (json :description) 
                                                (read-string (json :amount))
                                                (json :change_type)))))
+  (DELETE (str urls/account "/:account_id/events/:event_id") [account_id event_id] 
+       (operations/delete-event (read-string account_id) (read-string event_id)))
   ; Other utils
   (route/resources "/")
   (route/not-found (views/page-not-found)))

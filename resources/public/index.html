@@ -132,7 +132,7 @@
 			  makeDeleteConfirmationDialog(
 			      $("#delete_event_dialog"),
 			      function() {
-			        accounting.deleteEvent(activeEventId);
+			        accounting.deleteEvent(activeAccountId, activeEventId);
 			      }
 			  );
 			}
@@ -170,7 +170,9 @@
 			      $(".delete-event-button").click(function(e) {
 	      		  	$("#delete_event_dialog").dialog("open");
 	      		  	var eventId = $(this).closest("tr").attr("event-id");
+	      		  	var accountId = $(this).closest("tr").attr("account-id");
 	    		   	activeEventId = eventId;
+	    		   	activeAccountId = accountId;
 	      		  });
 			    }
 			  });
@@ -197,7 +199,7 @@
 			</div>
 		</script>
 		<script type="text/template" id="event_template">
-			<tr class="event-content" event-id="<%= id %>" >
+			<tr class="event-content" event-id="<%= id %>" account-id="<%= account_id %>" >
 				<td class="event-amount <%= amount_class %>"> <%= amount %> € </td>
 				<td class="event-date"> <%= event_date %> </td>
 				<td class="event-description"> <%= description %> </td>

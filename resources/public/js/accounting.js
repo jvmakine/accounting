@@ -10,6 +10,7 @@ var accounting = (function() {
   var onEventListRendered;
   
   var Accounts = newCollection('/rest/account');
+  var Events = {};
   
   var AccountModel = Backbone.Model.extend({
     urlRoot: '/rest/account',
@@ -55,6 +56,7 @@ var accounting = (function() {
           amount: model.get("amount"),
           amount_class: amountClassFromModel(model),
           event_date: model.get("event_date"),
+          account_id: model.get("account_id"),
           cumulative_amount: model.get("cumulative_amount"),
           cumulative_class: model.get("cumulative_amount") < 0 ? "negative" : "positive"
         });
@@ -90,11 +92,12 @@ var accounting = (function() {
     var model = Accounts.get(id);
     model.destroy();
     Accounts.remove(model);
+    delete Events[id];
   }
   
   publicInterface.renderAccountEvents = function(element, account_id) {
     if(account_id) {
-      var events = newCollection('/rest/account/' + account_id + '/events');
+      var events = Events[account_id];
       events.fetch({
         success: function() {
           var event_view = new EventView({ el: element, collection: events });
@@ -110,6 +113,10 @@ var accounting = (function() {
     var account_view = new AccountView({ el: $('#account_container'), collection: Accounts });
     Accounts.fetch({
       success: function() {
+        _.each(Accounts.models, function(account) {
+          var id = account.get("id");
+          Events[id] = newCollection('/rest/account/' + id + '/events');
+        });
         account_view.render(account_view.$el);
         Accounts.bind( "add", function() { account_view.render(account_view.$el); } );
         Accounts.bind( "remove", function() { account_view.render(account_view.$el); } );
@@ -129,9 +136,11 @@ var accounting = (function() {
     });
   }
   
-  publicInterface.deleteEvent = function(eventId) {
-    
-  } 
+  publicInterface.deleteEvent = function(accountId, eventId) {
+    var model = Events[accountId].get(eventId);
+    model.destroy();
+    Events[accountId].remove(model);
+  }
   
   return publicInterface;
 }());
