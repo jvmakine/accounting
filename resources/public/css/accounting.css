@@ -81,6 +81,10 @@ textarea {
 	background-color: rgb(215,239,255);
 }
 
+.event-content:hover {
+	background-color: rgb(200,229,249);
+}
+
 .account-events {
 	margin-top: 5px;
 }
@@ -91,8 +95,21 @@ textarea {
 	height: 25px;
 }
 
-.icon-button .ui-button-icon-primary {
+.delete-event-button {
+	width: 19px;
+	height: 19px;
+}
+
+td.event-delete {
+	width: 30px;
+}
+
+.medium-icon-button .ui-button-icon-primary {
 	left: 4px;
+}
+
+.small-icon-button .ui-button-icon-primary {
+	left: 1px;
 }
 
 .account-events {

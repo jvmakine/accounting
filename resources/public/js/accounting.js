@@ -7,6 +7,7 @@ var accounting = (function() {
   
   //Options
   var onAccountRefresh;
+  var onEventListRendered;
   
   var Accounts = newCollection('/rest/account');
   
@@ -73,6 +74,7 @@ var accounting = (function() {
   function parseOptions(opts) {
     opts = opts || {}
     onAccountRefresh = opts.onAccountRefresh || function() {};
+    onEventListRendered = opts.onEventListRendered || function() {};
   }
     
   publicInterface.createAccount = function(accountDetails) {
@@ -97,6 +99,7 @@ var accounting = (function() {
         success: function() {
           var event_view = new EventView({ el: element, collection: events });
           event_view.render(event_view.$el);
+          onEventListRendered();
         }
       });
     }
@@ -125,6 +128,10 @@ var accounting = (function() {
       }
     });
   }
+  
+  publicInterface.deleteEvent = function(eventId) {
+    
+  } 
   
   return publicInterface;
 }());

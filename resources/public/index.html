@@ -14,6 +14,7 @@
 		<script type="text/javascript">
 		
 		    var activeAccountId = null;
+		    var activeEventId = null;
 		
 			var makeAccountAccordion = function() {
 			  $("#account_container").accordion({ collapsible: true, active: null,
@@ -98,8 +99,8 @@
 	      		});
 			}
 			
-			var makeDeleteAccountDialog = function() {
-			  $("#delete_account_dialog").dialog({
+			var makeDeleteConfirmationDialog = function(elem, delete_fn) {
+			  elem.dialog({
 			    autoOpen: false,
 	      		height: 200,
 	      		width: 300,
@@ -108,14 +109,32 @@
 	      		resizable: false,
 	      		buttons: {
 	        		"Delete": function() {
-	        		  accounting.deleteAccount(activeAccountId);
-	        		  $("#delete_account_dialog").dialog("close");
+	        		  delete_fn();
+	        		  elem.dialog("close");
 	        		},
 	        		"Cancel": function() {
-	        		  $("#delete_account_dialog").dialog("close");
+	        		  elem.dialog("close");
 	        		}
 	      		 }	
 			  });
+			}
+			
+			var makeDeleteAccountDialog = function() {
+			  makeDeleteConfirmationDialog(
+			      $("#delete_account_dialog"),
+			      function() {
+			        accounting.deleteAccount(activeAccountId);
+			      }
+			  );
+			}
+			
+			var makeDeleteEventDialog = function() {
+			  makeDeleteConfirmationDialog(
+			      $("#delete_event_dialog"),
+			      function() {
+			        accounting.deleteEvent(activeEventId);
+			      }
+			  );
 			}
 			
 			var clearNewAccountForm = function() {
@@ -133,6 +152,7 @@
 			  makeAccountAccordion();
 			  makeNewAccountDialog();
 			  makeDeleteAccountDialog();
+			  makeDeleteEventDialog();
 			  makeNewEventDialog();
 			  $("#new_account_button").click(function(e){
 			    clearNewAccountForm();
@@ -142,6 +162,16 @@
 			    onAccountRefresh: function() {
 					$("#account_container").accordion('destroy');
 					makeAccountAccordion();
+			    },
+			    onEventListRendered: function() {
+			      $(".delete-event-button").button({
+				  	icons: { primary: "ui-icon-trash" },
+			      });
+			      $(".delete-event-button").click(function(e) {
+	      		  	$("#delete_event_dialog").dialog("open");
+	      		  	var eventId = $(this).closest("tr").attr("event-id");
+	    		   	activeEventId = eventId;
+	      		  });
 			    }
 			  });
 			});
@@ -157,8 +187,8 @@
               	<%= name %>
 			  </span>
               <span class="account-toolbar" style="float:right;" class="ui-widget-header ui-corner-all">
-				 <div class="add-event-button icon-button"></div>
-                 <div class="delete-account-button icon-button"></div>
+				 <div class="add-event-button medium-icon-button"></div>
+                 <div class="delete-account-button medium-icon-button"></div>
               </span>
             </h3>
 			<div class="account-content" account-id="<%= id %>" >
@@ -172,7 +202,7 @@
 				<td class="event-date"> <%= event_date %> </td>
 				<td class="event-description"> <%= description %> </td>
 				<td class="event-cumulative <%= cumulative_class %>"> <%= cumulative_amount %> € </td>
-				<td class="event-delete"> <div class="delete-event-button icon-button"></div> </td>
+				<td class="event-delete"> <div class="delete-event-button small-icon-button"></div> </td>
 			</tr>
 		</script>
 		<div>
@@ -194,7 +224,10 @@
   			</form>
 		</div>
 		<div id="delete_account_dialog" title="Delete an account">
-			Are you sure you want to delete the account?
+			Are you sure you want to delete this account?
+		</div>
+		<div id="delete_event_dialog" title="Delete an event">
+			Are you sure you want to delete this event?
 		</div>
 		<div id="new_event_dialog" title="Create new event">
 			<form>
