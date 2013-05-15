@@ -62,6 +62,8 @@
   ; RESTful urls for events
   (GET (str urls/account "/:id/events") [id] 
        (json-response (operations/get-events (read-string id))))
+  (GET urls/event [] 
+       (json-response (operations/get-all-events)))
   (POST urls/event {body :body} 
         (json-response (let [json (parse-json body)] 
                          (operations/new-event (read-string (json :account_id)) 

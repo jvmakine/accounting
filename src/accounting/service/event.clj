@@ -23,6 +23,16 @@
      :id (:id ins)
      :change_type (:change_type ins)}))
 
+(defn get-users-events [user-id]
+  (select db/event
+          (fields :description :amount :id :event_date :cumulative_amount :change_type :account_id)
+          (where {:account_id [in 
+                               (subselect db/account
+                                          (fields :id)
+                                          (where {:users_id user-id}))]})
+          (order :event_date :ASC)
+          (order :id :ASC)))
+
 (defn remove [account-id event-id]
   (delete db/event
           (where {:account_id account-id :id event-id})))

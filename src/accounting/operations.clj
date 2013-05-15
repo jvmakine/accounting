@@ -41,6 +41,14 @@
     "transfer" true
     false))
 
+(defn comb-help [arg1 arg2] 
+  [(+ (first arg1) (:amount arg2)) 
+   (conj (second arg1) (merge arg2 {:cumulative_amount (+ (first arg1) (:amount arg2))}))])
+
+(defn recalculate-cumulatives [events initial]
+  (let [tuple (reduce comb-help [initial []] events)]
+    (second tuple)))
+
 (defn current-user [] (session-get "username"))
 
 (defn current-user-id [] (session-get "user-id"))
@@ -58,6 +66,9 @@
   (if (account/user-account? (current-user-id) account-id)
     (utils/keys-to-string :event_date (event/list (current-user-id) account-id))
     (throw (Throwable. "Illegal account access"))))
+
+(defn get-all-events []
+  (utils/keys-to-string :event_date (recalculate-cumulatives (event/get-users-events (current-user-id)) 0)))
 
 (defn new-event [account-id description amount type]
   (if (account/user-account? (current-user-id) account-id)
