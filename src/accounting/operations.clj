@@ -41,13 +41,12 @@
     "transfer" true
     false))
 
-(defn comb-help [arg1 arg2] 
-  [(+ (first arg1) (:amount arg2)) 
-   (conj (second arg1) (merge arg2 {:cumulative_amount (+ (first arg1) (:amount arg2))}))])
-
 (defn recalculate-cumulatives [events initial]
-  (let [tuple (reduce comb-help [initial []] events)]
-    (second tuple)))
+  (letfn [(comb-help [arg1 arg2] 
+                     [(+ (first arg1) (:amount arg2)) 
+                      (conj (second arg1) (merge arg2 {:cumulative_amount (+ (first arg1) (:amount arg2))}))])]
+    (let [tuple (reduce comb-help [initial []] events)]
+      (second tuple))))
 
 (defn current-user [] (session-get "username"))
 

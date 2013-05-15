@@ -174,3 +174,5 @@ exiy
 (require '(accounting [operations :as o]))
 (o/comb-help [6 [{:a 1 :b 2}]] {:amount 5, :cumulative_amount 0})
 (o/recalculate-cumulatives [{:amount 5 :cumulative_amount 0} {:amount 10 :cumulative_amount 0}] 0)
+(require '(accounting [operations :as o]))
+(o/recalculate-cumulatives [{:amount 5 :cumulative_amount 0} {:amount 10 :cumulative_amount 0}] 0)
