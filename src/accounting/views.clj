@@ -13,8 +13,8 @@
      [:head [:title title]
       (include-css "/css/accounting.css")
       (include-css "/css/cupertino/jquery-ui-1.10.2.custom.min.css")
-      (include-js "/js/jquery-1.9.1.js")
-      (include-js "/js/jquery-ui-1.10.2.custom.min.js")
+      (include-js "/js/lib/jquery-1.9.1.js")
+      (include-js "/js/lib/jquery-ui-1.10.2.custom.min.js")
       (include-js "/js/decorator.js")]
      [:body
       [:div {:id "main-area"}

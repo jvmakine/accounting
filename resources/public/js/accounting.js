@@ -28,14 +28,23 @@ var accounting = (function() {
   
   var AccountView = Backbone.View.extend({
     render: function(elem) {
-      elem.html("");
+      var totTmpl = _.template( $("#account_template").html(), {
+        name: "Total",
+        description: "Sum of all events on all accounts",
+        id: 0,
+        total: 0,
+        total_class: 0 < 0 ? "negative" : "positive",
+        tool_display: "none"
+      });
+      elem.append(totTmpl);
       _.each(this.collection.models, function(model) {
         var template = _.template( $("#account_template").html(), {
           name: model.get("name"),
           description: model.get("description"),
           id: model.get("id"),
           total: model.get("total"),
-          total_class: model.get("total") < 0 ? "negative" : "positive"
+          total_class: model.get("total") < 0 ? "negative" : "positive",
+          tool_display: "block"
         });
         elem.append(template);
         onAccountRefresh();
@@ -102,7 +111,7 @@ var accounting = (function() {
   }
   
   publicInterface.renderAccountEvents = function(element, account_id) {
-    if(account_id) {
+    if(account_id !== undefined) {
       var events = Events[account_id];
       events.fetch({
         success: function() {
@@ -123,6 +132,7 @@ var accounting = (function() {
           var id = account.get("id");
           Events[id] = newCollection('/rest/account/' + id + '/events');
         });
+        Events[0] = newCollection('/rest/event');
         account_view.render(account_view.$el);
         Accounts.bind( "add", function() { account_view.render(account_view.$el); } );
         Accounts.bind( "remove", function() { account_view.render(account_view.$el); } );

@@ -188,7 +188,7 @@
 			  <span class="account-name">
               	<%= name %>
 			  </span>
-              <span class="account-toolbar" style="float:right;" class="ui-widget-header ui-corner-all">
+              <span class="account-toolbar" style="float:right; display: <%= tool_display %>;" class="ui-widget-header ui-corner-all">
 				 <div class="add-event-button medium-icon-button"></div>
                  <div class="delete-account-button medium-icon-button"></div>
               </span>
@@ -211,7 +211,8 @@
 			<a href="/logout">Logout</a>
 			<a href="#" id="new_account_button">New Account</a>
 		</div>
-		<div class="accounts" id="account_container"></div>
+		<div class="accounts" id="account_container">
+		</div>
 		
 		<div id="new_account_dialog" title="Create new account">
 			<form>
