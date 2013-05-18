@@ -28,12 +28,15 @@ var accounting = (function() {
   
   var AccountView = Backbone.View.extend({
     render: function(elem) {
+      elem.html("");
+      var tot = 0;
+      _.each(this.collection.models, function(model) { tot += model.get("total"); });
       var totTmpl = _.template( $("#account_template").html(), {
         name: "Total",
         description: "Sum of all events on all accounts",
         id: 0,
-        total: 0,
-        total_class: 0 < 0 ? "negative" : "positive",
+        total: tot,
+        total_class: tot < 0 ? "negative" : "positive",
         tool_display: "none"
       });
       elem.append(totTmpl);
