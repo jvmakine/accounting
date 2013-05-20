@@ -116,3 +116,15 @@ td.event-delete {
 	border-spacing: 0px;
 	width: 100%;
 }
+
+.footer {
+	padding-top: 30px;
+}
+
+.signup-button {
+	margin-left: 30px;
+}
+
+.loginform {
+	padding: 5px;
+}

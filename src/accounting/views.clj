@@ -18,7 +18,6 @@
       (include-js "/js/decorator.js")]
      [:body
       [:div {:id "main-area"}
-       [:h1 {:id "page-title"} title]
        [:div {:id "content-area"} contents]
        ]])})
 
@@ -33,6 +32,7 @@
 
 (defn signup [errors] 
   (page-template "Sign up" 
+                 [:div {:class "centered ui-widget ui-widget-content ui-corner-all loginform"}
                  (form-to [:post urls/signup]
                           [:table 
                            [:tr
@@ -51,24 +51,25 @@
                             [:td (submit-button "Register")]
                             [:td ""]
                             [:td ""]]]
-                          )))
+                          )]))
 
 (defn login [errors] 
   (page-template "Login" 
-                 (form-to [:post urls/login]
-                          [:table
-                           [:tr
-                            [:td (label "username" "Username")]
-                            [:td (text-field (jqueryui-field) "username")]
-                            [:td (print-error :login errors)]]
-                           [:tr
-                            [:td (label "password" "Password")]
-                            [:td (password-field (jqueryui-field) "password")]
-                            [:td (print-error :login errors)]]
-                           [:tr
-                            [:td (submit-button "Login")]
-                            [:td ""]
-                            [:td ""]]
-                           ]
-                          [:div {:class "footer"}
-                           [:a {:href urls/signup} "Sign up"]])))
+                 [:div {:class "centered ui-widget ui-widget-content ui-corner-all loginform"}
+                  (form-to [:post urls/login]
+                           [:table
+                            [:tr
+                             [:td (label "username" "Username")]
+                             [:td (text-field (jqueryui-field) "username")]
+                             [:td (print-error :login errors)]]
+                            [:tr
+                             [:td (label "password" "Password")]
+                             [:td (password-field (jqueryui-field) "password")]
+                             [:td (print-error :login errors)]]
+                            [:tr
+                             [:td (submit-button "Login")]
+                             [:td ""]
+                             [:td ""]]
+                            ]
+                           [:div {:class "footer"}
+                            "Not a member yet?" [:a {:href urls/signup :class "signup-button"} "Sign up"]])]))
