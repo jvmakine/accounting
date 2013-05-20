@@ -21,7 +21,7 @@
        [:div {:id "content-area"} contents]
        ]])})
 
-(defn page-not-found [] (page-template "Page Not Found!" [:span ""]))
+(defn page-not-found [] (page-template "Page Not Found!" [:div {:class "centered not-found"} "Page Not Found!"]))
 
 (defn print-error [key errors]
   (let [msg (key errors)]

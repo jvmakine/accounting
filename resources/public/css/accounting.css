@@ -53,7 +53,7 @@ textarea {
 
 .event-cumulative,
 .event-amount {
-	width: 80px;
+	width: 5.5em;
 	text-align: right;
 	padding-right: 15px;
 }
@@ -127,4 +127,8 @@ td.event-delete {
 
 .loginform {
 	padding: 5px;
+}
+
+.not-found {
+	font-size: 3em;
 }
