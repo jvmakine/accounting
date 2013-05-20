@@ -51,6 +51,8 @@
                             [:td (submit-button "Register")]
                             [:td ""]
                             [:td ""]]]
+                          [:div {:class "footer"}
+                            "Already a member?" [:a {:href urls/login :class "signup-button"} "Login"]]
                           )]))
 
 (defn login [errors] 
