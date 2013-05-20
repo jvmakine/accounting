@@ -9,7 +9,12 @@
     (.toString
       (new java.math.BigInteger 1 (.digest hash-bytes)) 16)))
 
+(defn key-to-string [key obj]
+  (let [val (key obj)]
+          (merge obj {key (str val)})))
+
 (defn keys-to-string [key lst]
-  (map #(let [val (key %)]
-          (merge % {key (str val)})) 
-       lst))
+  (map  #(key-to-string key %) lst))
+
+(defn string-to-sql-date [str] 
+  (java.sql.Date. (.getTime (.parse (java.text.SimpleDateFormat. "yyyy-MM-dd") str))))

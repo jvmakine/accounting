@@ -9,19 +9,20 @@
           (order :event_date :ASC)
           (order :id :ASC)))
 
-(defn new [account-id description amount type]
+(defn new [account-id description amount type event-date]
   (let [ins (insert db/event 
                    (values {:description description 
                             :account_id account-id
                             :amount amount
                             :change_type type
-                            :event_date (java.sql.Date. (.getTime (java.util.Date. )))}))]
+                            :event_date event-date}))]
     {:amount (:amount ins) 
      :description (:description ins) 
      :account_id (:account_id ins)
      :cumulative_amount (:cumulative_amount ins)
      :id (:id ins)
-     :change_type (:change_type ins)}))
+     :change_type (:change_type ins)
+     :event_date (:event_date ins)}))
 
 (defn get-users-events [user-id]
   (select db/event

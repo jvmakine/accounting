@@ -148,9 +148,11 @@ var accounting = (function() {
     var event = new EventModel();
     event.save(eventDetails, {
       success: function (event) {
-        var account = Accounts.get(event.get("account_id"));
+        var accountId = event.get("account_id");
+        var account = Accounts.get(accountId);
         var old_total = account.get("total") || 0;
         account.set("total", moneyRound(old_total + event.get("amount")));
+        Events[accountId] = newCollection('/rest/account/' + accountId + '/events');
       }
     });
   }

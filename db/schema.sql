@@ -30,7 +30,7 @@ CREATE FUNCTION updateCumulativeInsert() RETURNS TRIGGER AS '
   BEGIN
     UPDATE event SET cumulative_amount = cumulative_amount + NEW.amount 
       WHERE (event_date > NEW.event_date OR (event_date = NEW.event_date AND id > NEW.id)) AND account_id = NEW.account_id;
-    IF EXISTS (SELECT * FROM event WHERE account_id = NEW.account_id AND id != NEW.id) THEN
+    IF EXISTS (SELECT * FROM event WHERE (event_date < NEW.event_date OR (event_date = NEW.event_date AND id < NEW.id)) AND account_id = NEW.account_id) THEN
       UPDATE event SET cumulative_amount = (
         SELECT cumulative_amount FROM event WHERE
           (event_date < NEW.event_date OR (event_date = NEW.event_date AND id < NEW.id)) AND account_id = NEW.account_id

@@ -40,6 +40,7 @@
 
 (defn parse-json [body] (json/parse-string (slurp body) true))
 
+
 (defroutes accounting-routes
   ; Account management
   (GET urls/logout [] 
@@ -69,7 +70,9 @@
                          (operations/new-event (read-string (json :account_id)) 
                                                (json :description) 
                                                (read-string (json :amount))
-                                               (json :change_type)))))
+                                               (json :change_type)
+                                               (json :event_date)
+                                               ))))
   (DELETE (str urls/account "/:account_id/events/:event_id") [account_id event_id] 
        (operations/delete-event (read-string account_id) (read-string event_id)))
   ; Other utils

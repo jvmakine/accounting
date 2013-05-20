@@ -76,7 +76,7 @@
 			var makeNewEventDialog = function() {
 				$("#new_event_dialog").dialog({
 			      	autoOpen: false,
-			      	height: 310,
+			      	height: 370,
 			      	width: 400,
 			      	modal: true,
 			      	draggable: false,
@@ -88,7 +88,8 @@
 			        	  	  account_id: activeAccountId,
 			        	  	  description: $("#new_event_description").val(),
 			        	  	  amount: $("#new_event_amount").val(),
-			        	  	  change_type: (isTransfer ? "transfer" : "change")
+			        	  	  change_type: (isTransfer ? "transfer" : "change"),
+			        	  	  event_date: $("#new_event_date").val()
 			        	  	})
 				    	    $("#new_event_dialog").dialog("close");
 			        	},
@@ -97,6 +98,8 @@
 			        	}
 			      	}
 	      		});
+				$("#new_event_date").datepicker({ dateFormat: "yy-mm-dd" });
+				$("#new_event_date").datepicker( "setDate", "0" );
 			}
 			
 			var makeDeleteConfirmationDialog = function(elem, delete_fn) {
@@ -146,6 +149,7 @@
 				$("#new_event_amount").val("");
 				$("#new_event_description").val("");
 				$('#event-transfer').attr('checked', false);
+				$("#new_event_date").datepicker( "setDate", "0" );
 			}
 			
 			$(function() {
@@ -246,6 +250,10 @@
     			<div class="form-element">
     				<label for="transfer">Transfer to/from another account</label>
     				<input type="checkbox" name="transfer" id="event-transfer" />
+    			</div>
+    			<div class="form-element">
+    				<label for="event_date">Date of the event</label>
+    				<input type="text" name="event_date" id="new_event_date" class="text ui-widget-content ui-corner-all" />
     			</div>
   			</form>
 		</div>
