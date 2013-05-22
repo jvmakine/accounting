@@ -35,7 +35,7 @@ var accounting = (function() {
         name: "Total",
         description: "Sum of all events on all accounts",
         id: 0,
-        total: tot,
+        total: moneyRound(tot),
         total_class: tot < 0 ? "negative" : "positive",
         tool_display: "none"
       });
