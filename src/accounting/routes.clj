@@ -11,8 +11,10 @@
   (:require [clj-json.core :as json]))
 
 (defn authenticator [request]
-  (if (nil? (session-get "username")) 
-    (redirect urls/login)
+  (if (nil? (session-get "username"))
+    (if (= (:uri request) "/index.html")
+      (redirect urls/login)
+      {:status 401, :headers {}, :body ""})
     {:name (session-get "username") :roles (session-get "roles")}))
 
 (def security-policy
@@ -42,6 +44,8 @@
 
 
 (defroutes accounting-routes
+  (GET urls/permission-denied [] 
+       (views/permission-denied))
   ; Account management
   (GET urls/logout [] 
        (operations/logout))

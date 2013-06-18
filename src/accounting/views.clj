@@ -23,6 +23,8 @@
 
 (defn page-not-found [] (page-template "Page Not Found!" [:div {:class "centered not-found"} "Page Not Found!"]))
 
+(defn permission-denied [] {:status 401, :headers {}, :body ""})
+
 (defn print-error [key errors]
   (let [msg (key errors)]
     (if (nil? msg) "" [:div {:class "error"} msg])))
