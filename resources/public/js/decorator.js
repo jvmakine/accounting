@@ -8,7 +8,7 @@ jQuery.fn.center = function () {
 };
 
 $(function() {
-  $( "input[type=submit], a, button" ).button()
+  $( "input[type=submit], a.button, button" ).button()
   $(".centered").center();
   $(window).resize(function(){
     $(".centered").center();

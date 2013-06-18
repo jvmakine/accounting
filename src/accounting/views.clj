@@ -52,7 +52,7 @@
                             [:td ""]
                             [:td ""]]]
                           [:div {:class "footer"}
-                            "Already a member?" [:a {:href urls/login :class "signup-button"} "Login"]]
+                            "Already a member?" [:a {:href urls/login :class "signup-button button"} "Login"]]
                           )]))
 
 (defn login [errors] 
@@ -74,4 +74,4 @@
                              [:td ""]]
                             ]
                            [:div {:class "footer"}
-                            "Not a member yet?" [:a {:href urls/signup :class "signup-button"} "Sign up"]])]))
+                            "Not a member yet?" [:a {:href urls/signup :class "signup-button button"} "Sign up"]])]))

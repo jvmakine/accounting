@@ -19,10 +19,9 @@ body {
 }
 
 div.accounts {
-	width: 80%;
 	margin-top: 20px;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 9em;
+	margin-right: 2em;
 }
 
 div.form-element {
@@ -131,4 +130,20 @@ td.event-delete {
 
 .not-found {
 	font-size: 3em;
+}
+
+.operations-menu {
+	float: left;
+	width: 8em;
+	padding-top: 0.3em;
+}
+
+.operations-menu a {
+	display: block;
+	margin-bottom: 0.3em;
+	margin-left: 0.3em;
+	margin-right: 0.3em;
+	font-weight: bold;
+	color: #2779aa;
+	text-decoration: none;
 }
