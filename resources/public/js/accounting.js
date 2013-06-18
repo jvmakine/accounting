@@ -90,6 +90,7 @@ var accounting = (function() {
   
   publicInterface.createAccount = function(accountDetails) {
     var account = new AccountModel();
+    account.set("total", 0);
     account.save(accountDetails, {
       success: function (account) {
         Accounts.add(account);
