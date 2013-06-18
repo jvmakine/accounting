@@ -147,3 +147,7 @@ td.event-delete {
 	color: #2779aa;
 	text-decoration: none;
 }
+
+.operations-menu a:hover {
+	color: #3792bf;
+}
