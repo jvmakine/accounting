@@ -4,45 +4,54 @@ var accountingUi = (function() {
   //Public interface
   var publicInterface = {};
   
+  //UI Elements
+  var accountContainer    = "#account_container",
+      addAccountButton    = "#new_account_button",
+      deleteAccountButton = ".delete-account-button",
+      deleteAccountDialog = "#delete_account_dialog",
+      newAccountDialog    = "#new_account_dialog",
+      addEventButton      = ".add-event-button",
+      newEventDialog      = "#new_event_dialog",
+      deleteEventDialog   = "#delete_event_dialog",
+      deleteEventButton   = ".delete-event-button";
+  
+  // Selection status
   var activeAccountId = null;
   var activeEventId = null;
 
   var makeAccountAccordion = function() {
-    $("#account_container").accordion({ collapsible: true, active: null,
+    $(accountContainer).accordion({ collapsible: true, active: null,
       beforeActivate: function( event, ui ) {
         var panel = ui.newPanel;
         accounting.renderAccountEvents($(panel).children('.account-events'), $(panel).attr("account-id"));
       },
       heightStyle: "content"});
-    $(".delete-account-button").unbind('click');
-    $(".delete-account-button").click(function(event) {
+    $(deleteAccountButton).unbind('click');
+    $(deleteAccountButton).click(function(event) {
       event.stopPropagation();
       event.preventDefault();
       var accountId = $(this).closest("h3").attr("account-id");
       activeAccountId = accountId;
-      $("#delete_account_dialog").dialog("open");
+      $(deleteAccountDialog).dialog("open");
       });
-    $(".delete-account-button").button({
+    $(deleteAccountButton).button({
       icons: { primary: "ui-icon-trash" }
     });
-    $(".add-event-button").tooltip({
-      content: "Delete the account" 
-    });
-    $(".add-event-button").button({
+    $(addEventButton).button({
       icons: { primary: "ui-icon-plusthick" }
     });
-    $(".add-event-button").click(function(event) {
+    $(addEventButton).click(function(event) {
       event.stopPropagation();
       event.preventDefault();
       var accountId = $(this).closest("h3").attr("account-id");
       activeAccountId = accountId;
       clearNewEventForm();
-      $("#new_event_dialog").dialog("open");
-      });
+      $(newEventDialog).dialog("open");
+    });
   }
   
   var makeNewAccountDialog = function() {
-    $("#new_account_dialog").dialog({
+    $(newAccountDialog).dialog({
           autoOpen: false,
           height: 360,
           width: 350,
@@ -55,17 +64,17 @@ var accountingUi = (function() {
                   name: $("#new_account_name").val(),
                   description: $("#new_account_description").val()
               });
-              $("#new_account_dialog").dialog("close");
+              $(newAccountDialog).dialog("close");
             },
             "Cancel": function() { 
-                $("#new_account_dialog").dialog("close"); 
+                $(newAccountDialog).dialog("close"); 
             }
           }
         });
   }
   
   var makeNewEventDialog = function() {
-    $("#new_event_dialog").dialog({
+    $(newEventDialog).dialog({
           autoOpen: false,
           height: 370,
           width: 400,
@@ -82,10 +91,10 @@ var accountingUi = (function() {
                   change_type: (isTransfer ? "transfer" : "change"),
                   event_date: $("#new_event_date").val()
                 })
-              $("#new_event_dialog").dialog("close");
+              $(newEventDialog).dialog("close");
             },
             "Cancel": function() { 
-                $("#new_event_dialog").dialog("close"); 
+                $(newEventDialog).dialog("close"); 
             }
           }
         });
@@ -115,7 +124,7 @@ var accountingUi = (function() {
   
   var makeDeleteAccountDialog = function() {
     makeDeleteConfirmationDialog(
-        $("#delete_account_dialog"),
+        $(deleteAccountDialog),
         function() {
           accounting.deleteAccount(activeAccountId);
         }
@@ -124,7 +133,7 @@ var accountingUi = (function() {
   
   var makeDeleteEventDialog = function() {
     makeDeleteConfirmationDialog(
-        $("#delete_event_dialog"),
+        $(deleteEventDialog),
         function() {
           accounting.deleteEvent(activeAccountId, activeEventId);
         }
@@ -149,21 +158,21 @@ var accountingUi = (function() {
     makeDeleteAccountDialog();
     makeDeleteEventDialog();
     makeNewEventDialog();
-    $("#new_account_button").click(function(e){
+    $(addAccountButton).click(function(e){
       clearNewAccountForm();
-      $("#new_account_dialog").dialog("open");
+      $(newAccountDialog).dialog("open");
     })
     accounting.init({
       onAccountRefresh: function() {
-        $("#account_container").accordion('destroy');
+        $(accountContainer).accordion('destroy');
         makeAccountAccordion();
       },
       onEventListRendered: function() {
-        $(".delete-event-button").button({
+        $(deleteEventButton).button({
         icons: { primary: "ui-icon-trash" },
         });
-        $(".delete-event-button").click(function(e) {
-            $("#delete_event_dialog").dialog("open");
+        $(deleteEventButton).click(function(e) {
+            $(deleteEventDialog).dialog("open");
             var eventId = $(this).closest("tr").attr("event-id");
             var accountId = $(this).closest("tr").attr("account-id");
           activeEventId = eventId;

@@ -2,32 +2,63 @@
 
 var accounting = (function() {
   
-  //Public interface
+  // Public interface
   var publicInterface = {};
   
-  //Options
-  var onAccountRefresh;
-  var onEventListRendered;
+  // OPTIONS
+  var onAccountRefresh,
+      onEventListRendered;
+  
+  // UTILS
+  
+  var moneyRound = function(val) {
+    return Math.round(val*100)/100
+  }
+  
+  function newCollection(url) {
+    var result = new Backbone.Collection;
+    result.url = url;
+    return result;
+  }
+  
+  function parseOptions(opts) {
+    opts = opts || {}
+    onAccountRefresh = opts.onAccountRefresh || function() {};
+    onEventListRendered = opts.onEventListRendered || function() {};
+  }
+  
+  // INITIALIZATION
+  
+  publicInterface.init = function(opts) {
+    parseOptions(opts);
+    var account_view = new AccountView({ el: $('#account_container'), collection: Accounts });
+    Accounts.fetch({
+      success: function() {
+        _.each(Accounts.models, function(account) {
+          var id = account.get("id");
+          Events[id] = newCollection('/rest/account/' + id + '/events');
+        });
+        Events[0] = newCollection('/rest/event');
+        account_view.render();
+        Accounts.bind( "add", function() { account_view.render(); } );
+        Accounts.bind( "remove", function() { account_view.render(); } );
+        Accounts.bind( "change", function() { account_view.render(); } );
+      }
+    });
+  }
+  
+  // ACCOUNTS
   
   var Accounts = newCollection('/rest/account');
-  var Events = {};
   
   var AccountModel = Backbone.Model.extend({
     urlRoot: '/rest/account',
     defaults: {}
   });
   
-  var EventModel = Backbone.Model.extend({
-    urlRoot: '/rest/event',
-    defaults: {}
-  });
-  
-  var moneyRound = function(val) {
-    return Math.round(val*100)/100
-  }
-  
   var AccountView = Backbone.View.extend({
-    render: function(elem) {
+    render: function() {
+      var elem = this.$el;
       elem.html("");
       var tot = 0;
       _.each(this.collection.models, function(model) { tot += model.get("total"); });
@@ -57,44 +88,6 @@ var accounting = (function() {
     initialize: function() {}
   });
   
-  var amountClassFromModel = function(model) {
-    if(model.get("change_type") === "transfer") return "transfer";
-    return model.get("amount") < 0 ? "negative" : "positive";
-  }
-  
-  var EventView = Backbone.View.extend({ 
-    render: function(elem) {
-      elem.html("");
-      _.each(this.collection.models, function(model) {
-        var template = _.template( $("#event_template").html(), {
-          description: model.get("description"),
-          id: model.get("id"),
-          amount: model.get("amount"),
-          amount_class: amountClassFromModel(model),
-          event_date: model.get("event_date"),
-          account_id: model.get("account_id"),
-          cumulative_amount: model.get("cumulative_amount"),
-          cumulative_class: model.get("cumulative_amount") < 0 ? "negative" : "positive"
-        });
-        elem.append(template);
-      });
-      return this;
-    },
-    initialize: function() {}
-  });
-  
-  function newCollection(url) {
-    var result = new Backbone.Collection;
-    result.url = url;
-    return result;
-  }
-  
-  function parseOptions(opts) {
-    opts = opts || {}
-    onAccountRefresh = opts.onAccountRefresh || function() {};
-    onEventListRendered = opts.onEventListRendered || function() {};
-  }
-    
   publicInterface.createAccount = function(accountDetails) {
     var account = new AccountModel();
     account.save(accountDetails, {
@@ -113,36 +106,40 @@ var accounting = (function() {
     delete Events[id];
   }
   
-  publicInterface.renderAccountEvents = function(element, account_id) {
-    if(account_id !== undefined) {
-      var events = Events[account_id];
-      events.fetch({
-        success: function() {
-          var event_view = new EventView({ el: element, collection: events });
-          event_view.render(event_view.$el);
-          onEventListRendered();
-        }
-      });
-    }
-  }
+  // EVENTS
   
-  publicInterface.init = function(opts) {
-    parseOptions(opts);
-    var account_view = new AccountView({ el: $('#account_container'), collection: Accounts });
-    Accounts.fetch({
-      success: function() {
-        _.each(Accounts.models, function(account) {
-          var id = account.get("id");
-          Events[id] = newCollection('/rest/account/' + id + '/events');
-        });
-        Events[0] = newCollection('/rest/event');
-        account_view.render(account_view.$el);
-        Accounts.bind( "add", function() { account_view.render(account_view.$el); } );
-        Accounts.bind( "remove", function() { account_view.render(account_view.$el); } );
-        Accounts.bind( "change", function() { account_view.render(account_view.$el); } );
+  var Events = {};
+  
+  var EventModel = Backbone.Model.extend({
+    urlRoot: '/rest/event',
+    defaults: {}
+  });
+  
+  var EventView = Backbone.View.extend({
+    render: function() {
+      var amountClassFromModel = function(model) {
+        if(model.get("change_type") === "transfer") return "transfer";
+        return model.get("amount") < 0 ? "negative" : "positive";
       }
-    });
-  }
+      var elem = this.$el;
+      elem.html("");
+      _.each(this.collection.models, function(model) {
+        var template = _.template( $("#event_template").html(), {
+          description: model.get("description"),
+          id: model.get("id"),
+          amount: model.get("amount"),
+          amount_class: amountClassFromModel(model),
+          event_date: model.get("event_date"),
+          account_id: model.get("account_id"),
+          cumulative_amount: model.get("cumulative_amount"),
+          cumulative_class: model.get("cumulative_amount") < 0 ? "negative" : "positive"
+        });
+        elem.append(template);
+      });
+      return this;
+    },
+    initialize: function() {}
+  });
   
   publicInterface.createEvent = function(eventDetails) {
     var event = new EventModel();
@@ -164,6 +161,19 @@ var accounting = (function() {
     account.set("total", moneyRound(old_total - model.get("amount")));
     model.destroy();
     Events[accountId].remove(model);
+  }
+  
+  publicInterface.renderAccountEvents = function(element, account_id) {
+    if(account_id !== undefined) {
+      var events = Events[account_id];
+      events.fetch({
+        success: function() {
+          var event_view = new EventView({ el: element, collection: events });
+          event_view.render();
+          onEventListRendered();
+        }
+      });
+    }
   }
   
   return publicInterface;
