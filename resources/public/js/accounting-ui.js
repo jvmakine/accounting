@@ -277,12 +277,15 @@ var accountingUi = (function() {
             });
           });
           _.each(_.pairs(dailyTransfer), function(pair) {
-            calEvents.push({
-                title: "" + moneyRound(pair[1]),
-                start: new Date(Date.parse(pair[0])),
-                color: 'orange'
-            });
-          })
+            var val = "" + moneyRound(pair[1]);
+            if(val !== "0") {
+              calEvents.push({
+                  title: val,
+                  start: new Date(Date.parse(pair[0])),
+                  color: 'orange'
+              });
+            }
+          });
           $('.monthly-sum.positive').html(moneyRound(plusSum) + " €");
           $('.monthly-sum.negative').html(moneyRound(minusSum) + " €");
           $('.monthly-sum.transfer').html(moneyRound(transferSum) + " €");
