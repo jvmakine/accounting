@@ -26,13 +26,15 @@
      :change_type (:change_type ins)
      :event_date (:event_date ins)}))
 
-(defn get-users-events [user-id]
+(defn get-users-events [user-id from-date to-date]
   (select db/event
           (fields :description :amount :id :event_date :cumulative_amount :change_type :account_id)
           (where {:account_id [in 
                                (subselect db/account
                                           (fields :id)
                                           (where {:users_id user-id}))]})
+          (where (>= :event_date from-date))
+          (where (<= :event_date to-date))
           (order :event_date :ASC)
           (order :id :ASC)))
 

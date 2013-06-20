@@ -283,9 +283,9 @@ var accountingUi = (function() {
                 color: 'orange'
             });
           })
-          $('.monthly-sum.positive').html(moneyRound(plusSum));
-          $('.monthly-sum.negative').html(moneyRound(minusSum));
-          $('.monthly-sum.transfer').html(moneyRound(transferSum));
+          $('.monthly-sum.positive').html(moneyRound(plusSum) + " €");
+          $('.monthly-sum.negative').html(moneyRound(minusSum) + " €");
+          $('.monthly-sum.transfer').html(moneyRound(transferSum) + " €");
           callback(calEvents);
         });
       }

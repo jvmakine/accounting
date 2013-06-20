@@ -179,7 +179,7 @@ var accounting = (function() {
   
   publicInterface.getEventsForTimeRange = function(accountId, start, end, callback) {
     $.ajax({
-      url: '/rest/account/' + accountId + '/events',
+      url: accountId == 0 ? '/rest/event' : '/rest/account/' + accountId + '/events',
       data: {
         from: start,
         to: end

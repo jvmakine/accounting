@@ -74,8 +74,13 @@
                                       (if (nil? to-date) (max-date) (date to-date))))
     (throw (Throwable. "Illegal account access"))))
 
-(defn get-all-events []
-  (utils/keys-to-string :event_date (recalculate-cumulatives (event/get-users-events (current-user-id)) 0)))
+(defn get-all-events [from-date to-date]
+  (utils/keys-to-string :event_date 
+                        (recalculate-cumulatives 
+                          (event/get-users-events 
+                            (current-user-id)
+                            (if (nil? from-date) (min-date) (date from-date))
+                            (if (nil? to-date) (max-date) (date to-date))) 0)))
 
 (defn new-event [account-id description amount type event-date]
   (if (account/user-account? (current-user-id) account-id)
