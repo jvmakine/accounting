@@ -20,11 +20,6 @@ var accountingUi = (function() {
   // Selection status
   var activeAccountId = null;
   var activeEventId = null;
-
-  var setActiveAccountId = function() {
-    var accountId = $(this).closest("h3").attr("account-id");
-    activeAccountId = accountId;
-  }
   
   var makeAccountAccordion = function() {
     $(accountContainer).accordion({ collapsible: true, active: null,
@@ -38,7 +33,7 @@ var accountingUi = (function() {
     $(deleteAccountButton).click(function(event) {
       event.stopPropagation();
       event.preventDefault();
-      setActiveAccountId();
+      activeAccountId = $(this).closest("h3").attr("account-id");
       $(deleteAccountDialog).dialog("open");
     });
     $(deleteAccountButton).button({
@@ -51,7 +46,7 @@ var accountingUi = (function() {
     $(addEventButton).click(function(event) {
       event.stopPropagation();
       event.preventDefault();
-      setActiveAccountId();
+      activeAccountId = $(this).closest("h3").attr("account-id");
       clearNewEventForm();
       $(newEventDialog).dialog("open");
     });
@@ -60,7 +55,7 @@ var accountingUi = (function() {
     $(showCalendarButton).click(function(event) {
       event.stopPropagation();
       event.preventDefault();
-      setActiveAccountId();
+      activeAccountId = $(this).closest("h3").attr("account-id");
       $(showCalendarDialog).dialog({
         height: $(window).height()*0.9,
         width: $(window).width()*0.9
