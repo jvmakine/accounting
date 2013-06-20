@@ -67,7 +67,7 @@ var accountingUi = (function() {
         height: height,
         width: width
       });
-      $(calendar).fullCalendar('option', 'aspectRatio', width/(height - 200));
+      $(calendar).fullCalendar('option', 'aspectRatio', width/(height - 250));
       $(calendar).fullCalendar('today');
       $(showCalendarDialog).dialog("open");
       $(calendar).fullCalendar('render');
@@ -77,7 +77,6 @@ var accountingUi = (function() {
     });
   }
   
-
   var makeNewAccountDialog = function() {
     $(newAccountDialog).dialog({
       autoOpen : false,
@@ -100,7 +99,6 @@ var accountingUi = (function() {
       }
     });
   }
-  
 
   var makeNewEventDialog = function() {
     $(newEventDialog).dialog({
@@ -237,22 +235,30 @@ var accountingUi = (function() {
       lazyFetching: false,
       editable: false,
       events: function(start, end, callback) {
+        var month = $(calendar).fullCalendar('getDate').getMonth() + 1;
         end.setDate(end.getDate()-1);
         accounting.getEventsForTimeRange(activeAccountId, formatDate(start), formatDate(end), function(events) {
+          var plusSum = 0,
+              minusSum = 0,
+              transferSum = 0;
           var dailyMinus = {},
               dailyPlus = {},
               dailyTransfer = {};
           _.each(events, function(event) {
+            var event_month = new Date(Date.parse(event.event_date)).getMonth() + 1;
             var date = event.event_date;
             if(event.change_type === 'change' && event.amount < 0) {
               if(dailyMinus[date]) dailyMinus[date] += event.amount;
               else dailyMinus[date] = event.amount;
+              if(month == event_month) minusSum += event.amount;
             } else if(event.change_type === 'change' && event.amount >= 0) {
               if(dailyPlus[date]) dailyPlus[date] += event.amount;
               else dailyPlus[date] = event.amount;
+              if(month == event_month) plusSum += event.amount;
             } else if(event.change_type === 'transfer') {
               if(dailyTransfer[date]) dailyTransfer[date] += event.amount;
               else dailyTransfer[date] = event.amount;
+              if(month == event_month) transferSum += event.amount;
             }
           });
           var calEvents = [];
@@ -276,7 +282,10 @@ var accountingUi = (function() {
                 start: new Date(Date.parse(pair[0])),
                 color: 'orange'
             });
-          });
+          })
+          $('.monthly-sum.positive').html(moneyRound(plusSum));
+          $('.monthly-sum.negative').html(moneyRound(minusSum));
+          $('.monthly-sum.transfer').html(moneyRound(transferSum));
           callback(calEvents);
         });
       }
