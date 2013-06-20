@@ -164,9 +164,9 @@ var accounting = (function() {
     Events[accountId].remove(model);
   }
   
-  publicInterface.renderAccountEvents = function(element, account_id) {
-    if(account_id !== undefined) {
-      var events = Events[account_id];
+  publicInterface.renderAccountEvents = function(element, accountId) {
+    if(accountId !== undefined) {
+      var events = Events[accountId];
       events.fetch({
         success: function() {
           var event_view = new EventView({ el: element, collection: events });
@@ -175,6 +175,19 @@ var accounting = (function() {
         }
       });
     }
+  }
+  
+  publicInterface.getEventsForTimeRange = function(accountId, start, end, callback) {
+    $.ajax({
+      url: '/rest/account/' + accountId + '/events',
+      data: {
+        from: start,
+        to: end
+      },
+      success: function(data, status, xhr) {
+        callback(data);
+      }
+    });
   }
   
   return publicInterface;
