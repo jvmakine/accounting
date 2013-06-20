@@ -31,9 +31,12 @@
 			  <span class="account-name">
               	<%= name %>
 			  </span>
-              <span class="account-toolbar" style="float:right; display: <%= tool_display %>;" class="ui-widget-header ui-corner-all">
-				 <div class="add-event-button medium-icon-button"></div>
-                 <div class="delete-account-button medium-icon-button"></div>
+              <span class="account-toolbar" style="float:right;" class="ui-widget-header ui-corner-all">
+				 <div class="show-calendar-button medium-icon-button"></div>
+				 <% if(editable) { %>
+				 	<div class="add-event-button medium-icon-button"></div>
+                 	<div class="delete-account-button medium-icon-button"></div>
+				 <% } %>
               </span>
             </h3>
 			<div class="account-content" account-id="<%= id %>" >
@@ -107,5 +110,9 @@
     			</div>
   			</form>
 		</div>
+		
+		<div id="calendar_dialog" title="Event Calendar">
+		</div>
+		
 	</body>
 </html>

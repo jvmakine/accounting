@@ -68,7 +68,7 @@ var accounting = (function() {
         id: 0,
         total: moneyRound(tot),
         total_class: tot < 0 ? "negative" : "positive",
-        tool_display: "none"
+        editable: false
       });
       elem.append(totTmpl);
       _.each(this.collection.models, function(model) {
@@ -78,7 +78,7 @@ var accounting = (function() {
           id: model.get("id"),
           total: model.get("total"),
           total_class: model.get("total") < 0 ? "negative" : "positive",
-          tool_display: "block"
+          editable: true
         });
         elem.append(template);
         onAccountRefresh();

@@ -89,7 +89,8 @@ textarea {
 }
 
 .delete-account-button,
-.add-event-button {
+.add-event-button,
+.show-calendar-button {
 	width: 25px;
 	height: 25px;
 }

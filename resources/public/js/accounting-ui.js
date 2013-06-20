@@ -11,14 +11,21 @@ var accountingUi = (function() {
       deleteAccountDialog = "#delete_account_dialog",
       newAccountDialog    = "#new_account_dialog",
       addEventButton      = ".add-event-button",
+      showCalendarButton  = ".show-calendar-button",
       newEventDialog      = "#new_event_dialog",
       deleteEventDialog   = "#delete_event_dialog",
-      deleteEventButton   = ".delete-event-button";
+      deleteEventButton   = ".delete-event-button",
+      showCalendarDialog  = "#calendar_dialog";
   
   // Selection status
   var activeAccountId = null;
   var activeEventId = null;
 
+  var setActiveAccountId = function() {
+    var accountId = $(this).closest("h3").attr("account-id");
+    activeAccountId = accountId;
+  }
+  
   var makeAccountAccordion = function() {
     $(accountContainer).accordion({ collapsible: true, active: null,
       beforeActivate: function( event, ui ) {
@@ -26,27 +33,42 @@ var accountingUi = (function() {
         accounting.renderAccountEvents($(panel).children('.account-events'), $(panel).attr("account-id"));
       },
       heightStyle: "content"});
+    // Delete account button
     $(deleteAccountButton).unbind('click');
     $(deleteAccountButton).click(function(event) {
       event.stopPropagation();
       event.preventDefault();
-      var accountId = $(this).closest("h3").attr("account-id");
-      activeAccountId = accountId;
+      setActiveAccountId();
       $(deleteAccountDialog).dialog("open");
-      });
+    });
     $(deleteAccountButton).button({
       icons: { primary: "ui-icon-trash" }
     });
+    // New event button
     $(addEventButton).button({
       icons: { primary: "ui-icon-plusthick" }
     });
     $(addEventButton).click(function(event) {
       event.stopPropagation();
       event.preventDefault();
-      var accountId = $(this).closest("h3").attr("account-id");
-      activeAccountId = accountId;
+      setActiveAccountId();
       clearNewEventForm();
       $(newEventDialog).dialog("open");
+    });
+    // Show calendar button
+    $(showCalendarButton).unbind('click');
+    $(showCalendarButton).click(function(event) {
+      event.stopPropagation();
+      event.preventDefault();
+      setActiveAccountId();
+      $(showCalendarDialog).dialog({
+        height: $(window).height()*0.9,
+        width: $(window).width()*0.9
+      });
+      $(showCalendarDialog).dialog("open");
+    });
+    $(showCalendarButton).button({
+      icons: { primary: "ui-icon-calendar" }
     });
   }
   
@@ -140,6 +162,20 @@ var accountingUi = (function() {
     );
   }
   
+  var makeCalendarDialog = function() {
+    $(showCalendarDialog).dialog({
+      autoOpen: false,
+      modal: true,
+      draggable: false,
+      resizable: false,
+      buttons: {
+        "Close": function() { 
+            $(showCalendarDialog).dialog("close"); 
+        }
+      }
+    });
+  }
+  
   var clearNewAccountForm = function() {
     $("#new_account_name").val("");
     $("#new_account_description").val("");
@@ -158,6 +194,7 @@ var accountingUi = (function() {
     makeDeleteAccountDialog();
     makeDeleteEventDialog();
     makeNewEventDialog();
+    makeCalendarDialog();
     $(addAccountButton).click(function(e){
       clearNewAccountForm();
       $(newAccountDialog).dialog("open");
