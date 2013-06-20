@@ -15,7 +15,8 @@ var accountingUi = (function() {
       newEventDialog      = "#new_event_dialog",
       deleteEventDialog   = "#delete_event_dialog",
       deleteEventButton   = ".delete-event-button",
-      showCalendarDialog  = "#calendar_dialog";
+      showCalendarDialog  = "#calendar_dialog",
+      calendar            = "#full_calendar";
   
   // Selection status
   var activeAccountId = null;
@@ -56,67 +57,76 @@ var accountingUi = (function() {
       event.stopPropagation();
       event.preventDefault();
       activeAccountId = $(this).closest("h3").attr("account-id");
+      var height = $(window).height()*0.9;
+      var width = $(window).width()*0.9;
       $(showCalendarDialog).dialog({
-        height: $(window).height()*0.9,
-        width: $(window).width()*0.9
+        height: height,
+        width: width
       });
+      $(calendar).fullCalendar('option', 'aspectRatio', width/(height - 200));
+      $(calendar).fullCalendar('today');
       $(showCalendarDialog).dialog("open");
+      $(calendar).fullCalendar('render');
     });
     $(showCalendarButton).button({
       icons: { primary: "ui-icon-calendar" }
     });
   }
   
+
   var makeNewAccountDialog = function() {
     $(newAccountDialog).dialog({
-          autoOpen: false,
-          height: 360,
-          width: 350,
-          modal: true,
-          draggable: false,
-          resizable: false,
-          buttons: {
-            "Create": function() {
-                accounting.createAccount({
-                  name: $("#new_account_name").val(),
-                  description: $("#new_account_description").val()
-              });
-              $(newAccountDialog).dialog("close");
-            },
-            "Cancel": function() { 
-                $(newAccountDialog).dialog("close"); 
-            }
-          }
-        });
+      autoOpen : false,
+      height : 360,
+      width : 350,
+      modal : true,
+      draggable : false,
+      resizable : false,
+      buttons : {
+        "Create" : function() {
+          accounting.createAccount({
+            name : $("#new_account_name").val(),
+            description : $("#new_account_description").val()
+          });
+          $(newAccountDialog).dialog("close");
+        },
+        "Cancel" : function() {
+          $(newAccountDialog).dialog("close");
+        }
+      }
+    });
   }
   
+
   var makeNewEventDialog = function() {
     $(newEventDialog).dialog({
-          autoOpen: false,
-          height: 370,
-          width: 400,
-          modal: true,
-          draggable: false,
-          resizable: false,
-          buttons: {
-            "Create": function() {
-                var isTransfer = $('#event-transfer').is(':checked')
-                accounting.createEvent({
-                  account_id: activeAccountId,
-                  description: $("#new_event_description").val(),
-                  amount: $("#new_event_amount").val(),
-                  change_type: (isTransfer ? "transfer" : "change"),
-                  event_date: $("#new_event_date").val()
-                })
-              $(newEventDialog).dialog("close");
-            },
-            "Cancel": function() { 
-                $(newEventDialog).dialog("close"); 
-            }
-          }
-        });
-    $("#new_event_date").datepicker({ dateFormat: "yy-mm-dd" });
-    $("#new_event_date").datepicker( "setDate", "0" );
+      autoOpen : false,
+      height : 370,
+      width : 400,
+      modal : true,
+      draggable : false,
+      resizable : false,
+      buttons : {
+        "Create" : function() {
+          var isTransfer = $('#event-transfer').is(':checked')
+          accounting.createEvent({
+            account_id : activeAccountId,
+            description : $("#new_event_description").val(),
+            amount : $("#new_event_amount").val(),
+            change_type : (isTransfer ? "transfer" : "change"),
+            event_date : $("#new_event_date").val()
+          })
+          $(newEventDialog).dialog("close");
+        },
+        "Cancel" : function() {
+          $(newEventDialog).dialog("close");
+        }
+      }
+    });
+    $("#new_event_date").datepicker({
+      dateFormat : "yy-mm-dd"
+    });
+    $("#new_event_date").datepicker("setDate", "0");
   }
   
   var makeDeleteConfirmationDialog = function(elem, delete_fn) {
@@ -140,32 +150,26 @@ var accountingUi = (function() {
   }
   
   var makeDeleteAccountDialog = function() {
-    makeDeleteConfirmationDialog(
-        $(deleteAccountDialog),
-        function() {
-          accounting.deleteAccount(activeAccountId);
-        }
-    );
+    makeDeleteConfirmationDialog($(deleteAccountDialog), function() {
+      accounting.deleteAccount(activeAccountId);
+    });
   }
   
   var makeDeleteEventDialog = function() {
-    makeDeleteConfirmationDialog(
-        $(deleteEventDialog),
-        function() {
-          accounting.deleteEvent(activeAccountId, activeEventId);
-        }
-    );
+    makeDeleteConfirmationDialog($(deleteEventDialog), function() {
+      accounting.deleteEvent(activeAccountId, activeEventId);
+    });
   }
   
   var makeCalendarDialog = function() {
     $(showCalendarDialog).dialog({
-      autoOpen: false,
-      modal: true,
-      draggable: false,
-      resizable: false,
-      buttons: {
-        "Close": function() { 
-            $(showCalendarDialog).dialog("close"); 
+      autoOpen : false,
+      modal : true,
+      draggable : false,
+      resizable : false,
+      buttons : {
+        "Close" : function() {
+          $(showCalendarDialog).dialog("close");
         }
       }
     });
@@ -211,6 +215,16 @@ var accountingUi = (function() {
           activeAccountId = accountId;
         });
       }
+    });
+    $(calendar).fullCalendar({
+      theme: true,
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: ''
+      },
+      editable: false,
+      events: []
     });
   };
   
