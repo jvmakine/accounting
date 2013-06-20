@@ -65,8 +65,8 @@
   (DELETE (str urls/account "/:id") [id] 
        (operations/delete-account (read-string id)))
   ; RESTful urls for events
-  (GET (str urls/account "/:id/events") [id] 
-       (json-response (operations/get-events (read-string id))))
+  (GET (str urls/account "/:id/events") [id from to]
+       (json-response (operations/get-events (read-string id) from to)))
   (GET urls/event [] 
        (json-response (operations/get-all-events)))
   (POST urls/event {body :body} 

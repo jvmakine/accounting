@@ -2,10 +2,12 @@
   (:use [korma db core])
   (:require [accounting.service.db :as db]))
 
-(defn list [user-id account-id] 
+(defn list [user-id account-id from-date to-date] 
   (select db/event
           (fields :description :amount :id :event_date :cumulative_amount :change_type :account_id)
           (where (= :account_id account-id))
+          (where (>= :event_date from-date))
+          (where (<= :event_date to-date))
           (order :event_date :ASC)
           (order :id :ASC)))
 

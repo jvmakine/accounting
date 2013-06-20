@@ -10,6 +10,10 @@
   (:require [accounting.service.event :as event])
   (:require [accounting.views :as views]))
 
+(defn date [str] (if (nil? str) nil (utils/string-to-sql-date str)))
+(defn min-date [] (java.sql.Date. 0))
+(defn max-date [] (utils/string-to-sql-date "9999-12-31"))
+
 (defn login [username password]
   (if (user/valid-login? username password)
     (do
@@ -61,9 +65,13 @@
 (defn delete-account [id]
   (account/remove (current-user-id) id))
 
-(defn get-events [account-id]
+(defn get-events [account-id from-date to-date]
   (if (account/user-account? (current-user-id) account-id)
-    (utils/keys-to-string :event_date (event/list (current-user-id) account-id))
+    (utils/keys-to-string :event_date 
+                          (event/list (current-user-id) 
+                                      account-id 
+                                      (if (nil? from-date) (min-date) (date from-date)) 
+                                      (if (nil? to-date) (max-date) (date to-date))))
     (throw (Throwable. "Illegal account access"))))
 
 (defn get-all-events []
@@ -75,7 +83,7 @@
       (utils/key-to-string :event_date
                             (event/new 
                               account-id description amount type 
-                              (utils/string-to-sql-date event-date)))
+                              (date event-date)))
       (throw (Throwable. (str "Illegal event type " type))))
     (throw (Throwable. "Illegal account access"))))
 
