@@ -20,8 +20,9 @@ body {
 
 div.accounts {
 	margin-top: 20px;
-	margin-left: 9em;
-	margin-right: 2em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	
 }
 
 div.form-element {
@@ -94,8 +95,8 @@ textarea {
 .delete-account-button,
 .add-event-button,
 .show-calendar-button {
-	width: 25px;
-	height: 25px;
+	width: 1.4em;
+	height: 1.4em;
 }
 
 .delete-event-button {
@@ -137,16 +138,19 @@ td.event-delete {
 }
 
 .operations-menu {
-	float: left;
-	width: 8em;
+	float: top;
 	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+	padding-left: 0.3em;
+	margin-top: 0.5em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
 }
 
 .operations-menu a {
-	display: block;
 	margin-bottom: 0.3em;
 	margin-left: 0.3em;
-	margin-right: 0.3em;
+	margin-right: 1.0em;
 	font-weight: bold;
 	color: #2779aa;
 	text-decoration: none;
