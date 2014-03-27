@@ -4,11 +4,14 @@
 /classes
 /native
 /target/*
+/.settings/*
+/.classpath
 /.lein-failures
 /checkouts
 /.lein-deps-sum
 /.project
 /.lein-plugins
+/.lein-repl-history
 /bin
 libpeerconnection.log
 nohup.out
