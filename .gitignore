@@ -3,9 +3,12 @@
 /lib
 /classes
 /native
+/target/*
 /.lein-failures
 /checkouts
 /.lein-deps-sum
 /.project
 /.lein-plugins
 /bin
+libpeerconnection.log
+nohup.out

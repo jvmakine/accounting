@@ -1,1 +1,0 @@
-([:dependencies ([ring-server "0.2.8"] [org.clojure/clojure "1.4.0"] [compojure/compojure "1.1.5"] [isaacsu/sandbar "0.4.1"] [hiccup/hiccup "1.0.0"] [korma/korma "0.3.0-RC5"] [org.postgresql/postgresql "9.2-1002-jdbc4"] [clj-json/clj-json "0.5.3"])])
