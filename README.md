@@ -1,13 +1,1 @@
-# compojure
-
-FIXME: write description
-
-## Usage
-
-FIXME: write
-
-## License
-
-Copyright (C) 2013 FIXME
-
-Distributed under the Eclipse Public License, the same as Clojure.
+Single page application to keep track of money and income/expenses on several accounts.
