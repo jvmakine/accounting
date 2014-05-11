@@ -8,7 +8,8 @@
                  [org.postgresql/postgresql "9.2-1002-jdbc4"]
                  [clj-json "0.5.3"]
                  [ring/ring-jetty-adapter "1.1.0"]
-                 [ring/ring-devel "1.1.0"]]
+                 [ring/ring-devel "1.1.0"]
+                 [environ "0.5.0"]]
   :plugins [[lein-ring "0.8.3"]]
   :main accounting.routes/main
   :uberjar-name "accounting-standalone.jar"

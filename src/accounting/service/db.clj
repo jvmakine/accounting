@@ -1,12 +1,13 @@
 (ns accounting.service.db
-  (:use [korma db core]))
+  (:use [korma db core])
+  (:require [environ.core :as env]))
 
 (defdb accounting-db 
   (postgres 
-    {:db "accounting"
-     :user "accounting"
-     :password "accounting"
-     :host "127.0.0.1"
+    {:db (env/env :db-name)
+     :user (env/env :db-user)
+     :password (env/env :db-password)
+     :host (env/env :db-host)
      :port "5432"
      :delimiters ""}))
 
