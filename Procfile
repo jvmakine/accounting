@@ -1,1 +1,1 @@
-web: java -cp target/accounting-1.0.0-SNAPSHOT-standalone.jar clojure.main -m accounting.routes $PORT
+web: java $JVM_OPTS -cp target/accounting-standalone.jar clojure.main -m accounting.routes $PORT

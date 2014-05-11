@@ -11,5 +11,7 @@
                  [ring/ring-devel "1.1.0"]]
   :plugins [[lein-ring "0.8.3"]]
   :main accounting.routes/main
+  :uberjar-name "accounting-standalone.jar"
   :ring {:handler accounting.routes/accounting}
+  :min-lein-version "2.3.4"
   )
