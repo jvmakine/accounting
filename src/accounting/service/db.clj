@@ -6,7 +6,7 @@
     {:db "d10hr6kboc1c95"
      :user "nucbyfsiccnhbf"
      :password "wQh-M8f69024IrwEgIGXbm4p9w"
-     :host "postgres://nucbyfsiccnhbf:wQh-M8f69024IrwEgIGXbm4p9w@ec2-54-83-33-14.compute-1.amazonaws.com"
+     :host "wQh-M8f69024IrwEgIGXbm4p9w@ec2-54-83-33-14.compute-1.amazonaws.com"
      :port "5432"
      :delimiters ""}))
 
