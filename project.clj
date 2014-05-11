@@ -6,7 +6,10 @@
                  [hiccup "1.0.0"]
                  [korma "0.3.0-RC5"]
                  [org.postgresql/postgresql "9.2-1002-jdbc4"]
-                 [clj-json "0.5.3"]]
+                 [clj-json "0.5.3"]
+                 [ring/ring-jetty-adapter "1.1.0"]
+                 [ring/ring-devel "1.1.0"]]
   :plugins [[lein-ring "0.8.3"]]
+  :main accounting.routes/main
   :ring {:handler accounting.routes/accounting}
   )

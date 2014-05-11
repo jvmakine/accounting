@@ -90,3 +90,5 @@
     wrap-params
     wrap-dir-index
     ))
+
+(defn -main [& [port]] (run-jetty #'accounting {:port (read-string port) :join? false}))

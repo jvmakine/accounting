@@ -1,1 +1,1 @@
-web: lein ring server $PORT
+web: java -cp target/accounting-1.0.0-SNAPSHOT-standalone.jar clojure.main -m accounting.routes $PORT
